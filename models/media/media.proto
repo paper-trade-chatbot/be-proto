@@ -1,0 +1,1152 @@
+syntax = "proto3";
+option go_package = "models/media";
+
+enum VerifyCodeType {
+    REGISTER = 0;
+    RESETPASSWORD = 1;
+}
+
+enum WordCloudType {
+    WORDCLOUD_NONE = 0;
+    BULL = 1;
+    BEAR = 2;
+    BOTH = 3;
+}
+
+enum PostCommentRole {
+    POSTCOMMENTROLE_NONE        = 0; 
+    POSTCOMMENTROLE_VISITOR     = 1;
+    POSTCOMMENTROLE_MEMBER      = 2;
+    POSTCOMMENTROLE_COMMENTER   = 4;
+    POSTCOMMENTROLE_POSTER      = 8;
+    POSTCOMMENTROLE_ADMIN       = 16;
+    POSTCOMMENTROLE_SYSTEM      = 32;
+    POSTCOMMENTROLE_RESERVED    = 64;
+    POSTCOMMENTROLE_RESERVED2   = 128;
+    POSTCOMMENTROLE_ALL      = 255;
+}
+
+message MediaPagination {
+    int32 page = 1;
+    int32 pageSize = 2;
+}
+
+message MediaPaginationInfo {
+    int32 currentPage = 1;
+    int32 nextPage = 2;
+    int32 previousPage = 3;
+    int32 totalPages = 4;
+    int32 totalRows = 5;
+}
+
+message MediaLanguage {
+    string language = 1;
+    string status = 2;
+}
+
+message MediaCountry {
+    string country = 1;
+    string status = 2;
+}
+
+message MediaEmpty{}
+
+message NewsManagement {
+    int32 id  = 1;
+    string name = 2;
+    string code = 3;
+    repeated MediaLanguage language = 4;
+    string status = 5;
+    string contact = 6;
+    string email = 7;
+    string phone = 8;
+    string apiDocument = 9;
+    string account = 10;
+    string password = 11;
+    string projectId = 12;
+    string cipherkey = 13;
+    string class = 14;
+    string note = 15;
+}
+
+message TextMessageManagement {
+    int32 id  = 1;
+    string name = 2;
+    string code = 3;
+    repeated MediaCountry country = 4;
+    string status = 5;
+    string contact = 6;
+    string email = 7;
+    string phone = 8;
+    string apiDocument = 9;
+    string account = 10;
+    string password = 11;
+    string projectId = 12;
+    string cipherkey = 13;
+    string note = 14;
+}
+
+message TextMessageManagementList{
+    repeated TextMessageManagement textMessageManagement = 1;
+}
+
+message NewsManagementList{
+    repeated NewsManagement newsManagement = 2;
+}
+
+message ModifyNewsManagementListReq{
+    int32 id  = 1;
+    string name = 2;
+    string code = 3;
+    repeated MediaLanguage language = 4;
+    string status = 5;
+    string contact = 6;
+    string email = 7;
+    string phone = 8;
+    string apiDocument = 9;
+    string account = 10;
+    string password = 11;
+    string projectId = 12;
+    string cipherkey = 13;
+    string note = 14;
+    string class = 15;
+}
+
+message ModifyTextMessageManagementReq{
+    int32 id  = 1;
+    string name = 2;
+    string code = 3;
+    repeated MediaCountry country = 4;
+    string status = 5;
+    string contact = 6;
+    string email = 7;
+    string phone = 8;
+    string apiDocument = 9;
+    string account = 10;
+    string password = 11;
+    string projectId = 12;
+    string cipherkey = 13;
+    string note = 14;
+}
+
+message CreateNewsManagementReq{
+    string name = 1;
+    string code = 2;
+    repeated MediaLanguage language = 3;
+    string status = 4;
+    string contact =5 ;
+    string email = 6;
+    string phone = 7;
+    string apiDocument = 8;
+    string account = 9;
+    string password = 11;
+    string projectId = 12;
+    string cipherkey = 13;
+    string note = 14;
+    string class = 15;
+}
+
+message DeleteNewsManagementReq{
+     int32 id  = 1;
+}
+
+message CreateTextMessageManagementReq{
+    string name = 1;
+    string code = 2;
+    repeated MediaCountry country = 3;
+    string status = 4;
+    string contact =5 ;
+    string email = 6;
+    string phone = 7;
+    string apiDocument = 8;
+    string account = 9;
+    string password = 11;
+    string projectId = 12;
+    string cipherkey = 13;
+    string note = 14;
+}
+
+message DeleteTextMessageManagementReq{
+    int32 id  = 1;
+}
+
+message CustomerServiceToMailReq {
+    string email = 1;
+    string content = 2;
+    string subject = 3 ;
+    string name = 4 ;
+    bytes data = 5;
+    string filename = 6;
+}
+
+message SmsRequest {
+    string countryCode = 1;
+    string phone = 2;
+}
+
+message PhoneVerifyRequest {
+    string countryCode = 1;
+    string phone = 2;
+    string verifyCode = 3;
+}
+
+enum Language {
+    Language_NONE = 0;
+    ENGLISH = 1;
+    TRADITIONALCHINESE = 2;
+    VIETNAMESE = 3;
+    INDONESIAN = 4;
+    SIMPLIFIEDCHINESE = 5;
+}
+
+enum AnnouncementPosition {
+    Position_NONE = 0;
+    FRONT = 1;
+    BACK = 2;
+}
+
+message Content {
+    Language language = 1;
+    string text = 2;
+}
+
+message AnnouncementManagement {
+    int32 id = 1;
+    string title = 2;
+    string status = 3;
+    string account = 4;
+    int64 createdAtUnix = 5;
+    int64 updatedAtUnix = 6;
+    int64 startAtUnix = 7;
+    int64 endAtUnix = 8;
+    repeated Content content = 9;
+    AnnouncementPosition position = 10;
+    string memo = 11;
+}
+
+message GetAnnouncementManagementReq {
+    int32 id = 1;
+}
+
+message AnnouncementManagementResponse {
+    AnnouncementManagement announcement = 1;
+}
+
+message GetAnnouncementManagementListReq {
+    string queryTitle = 1;
+    string queryStatus = 2;
+    string queryAccount = 3;
+    int64 startAtUnix = 4;
+    int64 endAtUnix = 5;
+    Language queryLanguage = 6;
+    AnnouncementPosition queryPosition = 7;
+    AnnouncementType type = 8;
+}
+
+message AnnouncementManagementListRes {
+    repeated AnnouncementManagement announcement = 1;
+}
+
+message DeleteAnnouncementReq {
+    int32 id = 1;
+}
+
+enum AnnouncementType {
+    AnnouncementTypeNone = 0;
+    AnnouncementTypeMangement = 1;
+    AnnouncementTypeHistory = 2;
+}
+
+message RequestSmsForTestResponse {
+    string verifyCode = 1;
+}
+
+message GetSystemNotificationReq {
+    string account = 1;
+}
+
+enum SystemNotifyType {
+    SystemNotifyType_NONE = 0;
+    SystemNotifyType_PROMOTION = 1;
+    SystemNotifyType_ANNOUNCEMENT = 2;
+    SystemNotifyType_PAYMENT = 3;
+    SystemNotifyType_BONUS = 4;
+    SystemNotifyType_Audit = 5;
+    SystemNotifyType_RiskWarning = 6;
+    SystemNotifyType_RiskStopLoss = 7;
+    SystemNotifyType_ReceivedBonus = 8;
+    SystemNotifyType_VerificationResult = 9;
+    SystemNotifyType_WithdrawDenied = 10;
+    SystemNotifyType_PromotionCompleted = 11;
+    SystemNotifyType_RewardAudit = 12;
+}
+
+message SystemNotification {
+    string id = 1;
+    SystemNotifyType type = 2;
+    string content = 3;
+    int64 time = 4;
+    bool readOrNot = 5;
+}
+
+message SystemNotificationList {
+    repeated SystemNotification notification = 1;
+}
+
+message NotifyRequest {
+    string id = 1;
+    SystemNotifyType type = 2; 
+}
+
+message ReadNotifyRequest {
+    string account = 1;
+    repeated NotifyRequest notify = 2;
+}
+
+message DeleteNotifyRequest {
+    string account = 1;
+    repeated NotifyRequest notify = 2;    
+}
+
+enum QRCodeType {
+    QRCodeNone = 0;
+    QRCodePromotion = 1;
+}
+
+message GetQRCodeRequest {
+    string url = 1;
+    string inviteCode = 2;
+    QRCodeType type = 3;
+}
+
+message QRCode {
+    string qrCode = 1;
+}
+
+message NewThemeReq {
+    string name = 1;
+}
+
+message NewThemeRes {
+    string message = 2;
+}
+
+message NewKeyReq{
+    string key = 1;
+    string setting = 2;
+}
+
+message NewKeyRes{
+    string message = 1;
+}
+
+message GetThemeReq{
+    repeated string names = 1;
+}
+
+message GetThemeRes{
+    repeated ThemeInfo themeInfos = 1;
+}
+
+message ThemeInfo{
+    string name = 1;
+    repeated KeyInfo keyInfo = 2;
+}
+
+
+message GetKeyReq{
+    repeated string names = 1;
+    repeated string orderBy = 2;
+    repeated string orderDirection = 3;
+}
+
+message GetKeyRes{
+    repeated KeyInfo keyInfos = 1;
+}
+
+message KeyInfo{
+    int64 id = 1;
+    string key = 2;
+    string setting = 3;
+    int64 updatedAt = 4;
+
+    string category = 5;
+    bool hardDelete = 6;
+}
+
+message ModifyKeyReq{
+    repeated KeyInfo keyInfos = 1;
+}
+
+message ModifyKeyRes{
+   string message = 1;
+}
+
+
+message DeleteKeyReq{
+    repeated KeyInfo keyInfos = 1;
+}
+
+message DeleteKeyRes{
+    string message = 1;
+}
+
+message GetThemeArrReq{
+}
+
+message GetThemeArrRes{
+    repeated string themes = 1;
+}
+
+
+message GetPictureReq{
+}
+
+message GetPictureRes{
+    repeated PictureInfo pictureInfos = 1;
+}
+
+message PictureInfo{
+    int32 id = 1;
+    string language = 2;
+    int32 category = 3;
+    int32 position = 4;
+    string pixel = 5;
+    repeated ImageSet imageSets = 6;
+    int64 updatedAt = 7;
+}
+
+message ImageSet {
+    string seoName = 1;
+    string image = 2;
+    string link = 3;
+}
+
+message CreatePictureReq{
+    string language = 1;
+    int32 category = 2;
+    int32 position = 3;
+    string pixel = 4;
+    repeated ImageSet imageSets = 5;
+}
+
+message ModifyPictureReq{
+    int32 id = 1;
+    string language = 2;
+    int32 category = 3;
+    int32 position = 4;
+    string pixel = 5;
+    repeated ImageSet imageSets = 6;
+}
+
+message DeletePictureReq{
+    int32 id = 1;
+}
+
+message GetFrontPictureReq { 
+}
+
+message GetFrontPictureRes {
+    repeated FrontPictureInfo frontPictureInfos = 1;
+}
+
+message FrontPictureInfo {
+    string language = 1;
+    int32 category = 2;
+    int32 position = 3;
+    repeated FrontImageSet frontImageSets = 4;
+}
+
+message FrontImageSet {
+    string image = 1;
+    string link = 2;
+}
+
+enum SEOCATEGORY {
+    SEOCATEGORY_NONE = 0;
+    SEOCATEGORY_OFFICIALWEBSITE = 1;
+    SEOCATEGORY_TRADEWEB = 2;
+    SEOCATEGORY_TRADEMOBILE = 3;
+}
+
+message GetSEODataListReq {
+    string language = 1;
+}
+
+message SEOData {
+    string language = 1; 
+    repeated SEODataLocalization list = 2;
+}
+
+message SEODataLocalization {
+    int32 id = 1;
+    string title = 2;
+    string property = 3;
+    string content = 4;
+    SEOCATEGORY category = 5;
+    int32 updatedAtUnix = 6;
+}
+
+message SEODataList{
+    repeated SEOData data = 1;
+}
+
+message SEOInfo {
+    int32 id = 1;
+    string language = 2;
+    string title = 3;
+    string property = 4;
+    string content = 5;
+    SEOCATEGORY category = 6;
+}
+
+message CreateSEODataListReq{
+    repeated SEOInfo request = 1;
+}
+
+message UpdateSEODataReq{
+    SEOInfo request = 1;
+}
+
+message DeleteSEODataReq{
+    int32 id = 1;
+}
+
+message GetLanguageReq{
+    string isAdd = 1;
+}
+
+message GetLanguageRes{
+    repeated LanguageInfo languageInfos = 1;
+}
+
+message LanguageInfo{
+    int64 id = 1;
+    string language = 2;
+    string languageName = 3;
+    bool isAdd = 4;
+}
+
+message GetLanguageKeyCategoryReq{
+}
+
+message GetLanguageKeyCategoryRes{
+    repeated string category = 1;
+}
+
+message TransLanguageKeyReq{
+    int64 id = 1;
+    bool onlyBlank = 2;
+}
+
+message TransLanguageKeyRes{
+    string message = 1;
+}
+
+message TransLanguageReq{
+    string language = 1;
+    bool onlyBlank = 2;
+}
+
+message TransLanguageRes{
+    string message = 1;
+}
+
+message ModifyLanguageReq{
+    string language = 1;
+    bool IsAdd = 2;
+}
+
+message ModifyLanguageRes{
+
+}
+
+message MailRequest {
+    VerifyCodeType type = 1;
+    string to = 2;
+}
+
+message SendMailBySystemRequest {
+    repeated string toEmail = 1;
+    string content = 2;
+    string subject = 3;
+}
+
+message MailVerifyRequest {
+    string mail = 1;
+    string verifyCode = 2;
+}
+
+message GetWordCloudRequest {
+    WordCloudType kind = 1;
+    int32 limit = 2;
+}
+
+message GetWordCloudResponse {
+    repeated Volume volumes = 1;
+}
+
+message Volume {
+    int64 rank = 1;
+    string exchangeCode = 2;
+    string productCode = 3;
+    int64 volume = 4;
+}
+
+message RegistrationSuccessMailReq {
+    string account = 1;
+    string to = 2;
+}
+
+message NewDeviceNotificationReq {
+    string account = 1;
+    string to = 2;
+    string ip = 3;
+}
+
+message GetNotificationSettingReq {
+    string account = 1;
+}
+
+message GetNotificationSettingRes {
+    bool emailPromotion = 1; 
+    bool emailNewDevice = 2;
+    bool emailWithdrawDeposit = 3;
+    bool smsWithdrawDeposit = 4;
+    bool appPushOrderSuccessFail = 5;
+    bool appPushRiskNotify = 6;
+    bool appPushPromotion = 7;
+    bool appPushUpDown = 8;
+    bool appPushWithdrawDeposit = 9;
+    bool appPushStopLoss = 10;
+}
+
+message ModifyNotificationSettingReq {
+    string account = 1;
+    bool emailPromotion = 2; 
+    bool emailNewDevice = 3;
+    bool emailWithdrawDeposit = 4;
+    bool smsWithdrawDeposit = 5;
+    bool appPushOrderSuccessFail = 6;
+    bool appPushRiskNotify = 7;
+    bool appPushPromotion = 8;
+    bool appPushUpDown = 9;
+    bool appPushWithdrawDeposit = 10;
+    bool appPushStopLoss = 11;
+}
+
+message WithdrawDepositNotificationReq {
+    string account = 1;
+    string action = 2;
+    double amount = 3;
+    string bankName = 4;
+    string bankAccount = 5;
+    string gateway = 6;
+    string email = 7;
+    string phoneNumber = 8;
+    string fcmToken = 9;
+}
+
+message NewPromotionNotificationReq {
+    repeated string accounts = 1;
+    repeated string tokens = 2;
+    repeated string bodyLocArgs = 3;
+}
+
+message RealNameAuthNotificationReq {
+    string account = 1;
+    string result = 2;
+    string email = 3;
+    string token = 4;
+}
+
+message LimitOrderNotificationReq {
+    string account = 1;
+    int32 side = 2;
+    string qty = 3;
+    string productCode = 4;
+    string orderPrice = 5;
+    string commitPrice = 6;
+}
+
+message MITOrderNotificationReq {
+    string account = 1;
+    string productCode = 2;
+    int32 side = 3;
+    string qty = 4;
+    string profit = 5;
+    string closePrice = 6;
+    int32 stopLossTakeProfit = 7;
+}
+
+message CreateNotificationSettingReq {
+    string account = 1;
+}
+message DeleteNotificationSettingReq {
+    string account = 1;
+}
+
+enum PriceChangeDirection {
+    PriceChangeDirectionNone = 0;
+    PriceChangeDirectionUp = 1;
+    PriceChangeDirectionDown = 2;
+}
+
+message PriceUpDownNotificationReq {
+    PriceChangeDirection type = 1;
+    string priceChangePercentage = 2;
+    string productCode = 3;
+    repeated string accounts = 4;
+    string price = 5;
+}
+
+message RewardAuditNotificationReq {
+    string account = 1;
+}
+
+message GetPersonalPageInfoReq{
+    string account = 1;
+}
+
+message GetPersonalPageInfoRes {
+    string account = 1;
+    string nickname = 2;
+    string about = 3;
+    string thumbnail = 4;
+    string profileBanner = 5;
+    int32 followingsNum = 6;
+    int32 followersNum = 7;
+    int32 postsNum = 8;
+}
+
+enum PostMediaType {
+    POSTMEDIATYPE_NONE = 0;
+    NEWS = 1;
+    CHART = 2;
+    GIPHY = 3;
+    PICTURE = 4;
+    VIDEO = 5;
+}
+
+message PostMedia {
+    PostMediaType postMediaType = 1;
+    string media = 2;
+}
+
+enum PostBullBear {
+    POST_NONE = 0;
+    POST_BULL = 1;
+    POST_BEAR = 2; 
+}
+
+message ProductTag {
+    string exchangeCode = 1;
+    string productCode = 2;
+}
+
+enum CommentPermission {
+    COMMENTPERMISSION_NONE = 0;
+    PUBLIC = 1;
+    FOLLOWERS = 2;
+    DISALLOWALL = 3;
+}
+
+message CreatePostReq {
+    string account = 1;
+    string content = 2;
+    repeated PostMedia postMedia = 3;
+    PostBullBear bullBear = 4;
+    repeated ProductTag productTags = 5;
+    string productTagIcon = 6;
+    double productTagUpDownPercent = 7;
+    CommentPermission commentPermission = 8;
+}
+
+message GetPostListReq {
+    string userAccount = 1;
+    string postAccount = 2;
+    MediaPagination pagination = 3;
+}
+
+message Post {
+    int64 id = 1;
+    string account = 2;
+    string nickname = 3;
+    string thumbnail = 4;
+    string content = 5;
+    repeated PostMedia postMedia = 6;
+    PostBullBear bullBear = 7;
+    repeated ProductTag productTags = 8;
+    string productTagIcon = 9;
+    double productTagUpDownPercent = 10;
+    CommentPermission commentPermission = 11;
+    int32 reactionsNum = 12;
+    int32 commentsNum = 13;
+    int32 sharesNum = 14;
+    bool isReacted = 15;
+    bool isSaved = 16;
+    bool isFollowing = 17;
+    int64 createdAtUnix = 18;
+    int64 updatedAtUnix = 19;
+}
+
+message GetPostListRes {
+    repeated Post posts = 1;
+    MediaPaginationInfo paginationInfo = 2;
+}
+
+message GetPostReq {
+    int64 id = 1;
+    string account = 2;
+}
+
+message GetPostRes {
+    int64 id = 1;
+    string account = 2;
+    string nickname = 3;
+    string thumbnail = 4;
+    string content = 5;
+    repeated PostMedia postMedia = 6;
+    PostBullBear bullBear = 7;
+    repeated ProductTag productTags = 8;
+    string productTagIcon = 9;
+    double productTagUpDownPercent = 10;
+    CommentPermission commentPermission = 11;
+    int32 reactionsNum = 12;
+    int32 commentsNum = 13;
+    int32 sharesNum = 14;
+    bool isReacted = 15;
+    bool isSaved = 16;
+    bool isFollowing = 17;
+    int64 createdAtUnix = 18;
+    int64 updatedAtUnix = 19;
+}
+
+message ModifyPostReq {
+    int64 id = 1;
+    string account = 2;
+    string content = 3;
+    repeated PostMedia postMedia = 4;
+    PostBullBear bullBear = 5;
+    repeated ProductTag productTags = 6;
+    string productTagIcon = 7;
+    double productTagUpDownPercent = 8;
+    CommentPermission commentPermission = 9;
+}
+
+message DeletePostReq {
+    int64 id = 1;
+    string account = 2;
+}
+
+message CreatePostSaveReq {
+    string account = 1;
+    int64 postId = 2;
+}
+
+message GetPostSaveListReq {
+    string account = 1;
+    MediaPagination pagination = 2;
+}
+
+message PostSave {
+    int64 id = 1;
+    string account = 2;
+    string nickname = 3;
+    string thumbnail = 4;
+    string content = 5;
+    repeated PostMedia postMedia = 6;
+    PostBullBear bullBear = 7;
+    repeated ProductTag productTags = 8;
+    string productTagIcon = 9;
+    double productTagUpDownPercent = 10;
+    CommentPermission commentPermission = 11;
+    int32 reactionsNum = 12;
+    int32 commentsNum = 13;
+    int32 sharesNum = 14;
+    bool isReacted = 15;
+    bool isSaved = 16;
+    bool isFollowing = 17;
+    int64 createdAtUnix = 18;
+    int64 updatedAtUnix = 19;
+    int64 savedAtUnix = 20;
+}
+
+message GetPostSaveListRes {
+    repeated PostSave postSaves = 1;
+    MediaPaginationInfo paginationInfo = 2;
+}
+
+message ModifyPostSaveReq {
+    string account = 1;
+    int64 postId = 2;
+}
+
+enum PostReactionCategory {
+    POSTREACTIONCATEGORY_NONE = 0;
+    POST = 1;
+    COMMENT = 2;
+}
+
+enum PostReactionType {
+    POSTREACTIONTYPE_NONE = 0;
+    LIKE = 1;
+    DISLIKE = 2;
+}
+
+message CreatePostReactionReq {
+    PostReactionCategory postReactionCategory = 1;
+    int64 id = 2;
+    string account = 3;
+    PostReactionType postReactionType = 4;
+}
+
+message GetPostReactionListReq {
+    PostReactionCategory postReactionCategory = 1;
+    int64 id = 2;
+    MediaPagination pagination = 3;
+}
+
+message PostReaction {
+    PostReactionCategory postReactionCategory = 1;
+    int64 id = 2;
+    string account = 3;
+    string nickname = 4;
+    string thumbnail = 5;
+    PostReactionType postReactionType = 6;
+    int64 createdAtUnix = 7;
+}
+
+message GetPostReactionListRes {
+    repeated PostReaction postReactions = 1;
+    MediaPaginationInfo paginationInfo = 2;
+}
+
+message ModifyPostReactionReq {
+    string account = 1;
+    PostReactionCategory postReactionCategory = 2;
+    int64 id = 3;
+}
+
+message CreatePostCommentReq {
+    int64 postId = 1;
+    int64 parentId = 2;
+    string account = 3;
+    string content = 4;
+    repeated PostMedia commentMedia = 5;
+    int32 comment_permission = 6;
+    PostCommentRole maskedBy = 7;
+}
+
+message PostComment {
+    int64 id = 1;
+    int64 postId = 2;
+    int64 parentId = 3;
+    string account = 4;
+    string content = 5;
+    repeated PostMedia commentMedia = 6;
+    int32 comment_permission = 7;
+    int32 reactionsNum = 8;
+    int32 commentsNum = 9;
+    int32 maskType = 10;
+    int64 createdAtUnix = 11;
+    int64 updatedAtUnix = 12;
+}
+
+message GetPostCommentReq {
+    int64 id = 1;
+    int64 postId = 2;
+    string account = 3;
+    int64 parentId = 4;
+    int64 createdTimeFromUnix = 5;
+    int64 createdTimeToUnix = 6;
+    PostCommentRole accessRole = 7;
+    string roleAccount = 8;
+    MediaPagination pagination = 9;
+}
+
+message GetPostCommentRes {
+    repeated PostComment postComments = 1;
+    MediaPaginationInfo paginationInfo = 2;
+}
+
+message HierachicalPostComment {
+    PostComment postComment = 1;
+    repeated HierachicalPostComment childPostComments = 2;
+}
+
+message GetPostCommentHierachicalReq {
+    int64 id = 1;
+    int64 postId = 2;
+    string account = 3;
+    int64 createdTimeFromUnix = 4;
+    int64 createdTimeToUnix = 5;
+    PostCommentRole accessRole = 6;
+    string roleAccount = 7;
+    MediaPagination pagination = 8;
+}
+
+message GetPostCommentHierachicalRes {
+    repeated HierachicalPostComment postComments = 1;
+    MediaPaginationInfo paginationInfo = 2;
+}
+
+message CountPostCommentReq {
+    int64 postId = 1;
+    string account = 2;
+    int64 parentId = 3;
+    int64 createdTimeFromUnix = 4;
+    int64 createdTimeToUnix = 5;
+    PostCommentRole accessRole = 6;
+    string roleAccount = 7;
+}
+
+message CountPostCommentRes {
+    int64 count = 1;
+}
+
+message ModifyPostCommentReq {
+    int64 id = 1;
+    int64 postId = 2;
+    int64 parentId = 3;
+    string account = 4;
+    string content = 5;
+    repeated PostMedia commentMedia = 6;
+    int32 reactionsNumber = 7;
+    int32 commentsNumber = 8;
+    int32 maskType = 9;
+    string roleAccount = 10;
+}
+
+message DeletePostCommentReq {
+    int64 id = 1;
+    int64 postId = 2;
+    string account = 3;
+    int64 parentId = 4;
+    int64 createdTimeFromUnix = 5;
+    int64 createdTimeToUnix = 6;
+    PostCommentRole maskerRole = 7;
+    string roleAccount = 8;
+}
+
+message MaskPostCommentReq {
+    int64 id = 1;
+    int64 postId = 2;
+    int64 parentId = 3;
+    string account = 4;
+    int64 createdTimeFromUnix = 5;
+    int64 createdTimeToUnix = 6;
+    PostCommentRole maskRole = 7;
+    string roleAccount = 8;
+    bool mask = 9;
+}
+
+message GetProductTagListReq {
+    string account = 1;
+    ProductTag productTag = 2;
+    MediaPagination pagination = 3;
+}
+
+message GetProductTagListRes {
+    repeated Post posts = 1;
+    MediaPaginationInfo paginationInfo = 2;
+}
+
+service MediaService {
+    rpc  GetTextMessageManagementList(MediaEmpty) returns (TextMessageManagementList);
+    rpc  ModifyTextMessageManagement(ModifyTextMessageManagementReq) returns (MediaEmpty);
+    rpc  GetNewsManagementList(MediaEmpty) returns (NewsManagementList);
+    rpc  ModifyNewsManagementList(ModifyNewsManagementListReq) returns (MediaEmpty);
+    rpc  CreateNewsManagement(CreateNewsManagementReq) returns (MediaEmpty);
+    rpc  DeleteNewsManagement(DeleteNewsManagementReq) returns (MediaEmpty);
+    rpc  CreatTextMessageManagement(CreateTextMessageManagementReq) returns (MediaEmpty);
+    rpc  DeleteTextMessageManagement(DeleteTextMessageManagementReq) returns (MediaEmpty);
+    rpc  RequestSms(SmsRequest) returns (MediaEmpty);
+    rpc  RequestSmsForTest(SmsRequest) returns (RequestSmsForTestResponse);
+    rpc  VerifyPhone(PhoneVerifyRequest) returns (MediaEmpty);
+    rpc  CreateAnnouncement(AnnouncementManagement) returns (MediaEmpty);
+    rpc  GetAnnouncementManagement(GetAnnouncementManagementReq) returns (AnnouncementManagementResponse);
+    rpc  GetAnnouncementManagementList(GetAnnouncementManagementListReq) returns (AnnouncementManagementListRes);
+    rpc  ModifyAnnouncement(AnnouncementManagement) returns (MediaEmpty);
+    rpc  DeleteAnnouncement(DeleteAnnouncementReq) returns (MediaEmpty);
+    rpc  GetSystemNotification(GetSystemNotificationReq) returns (SystemNotificationList);
+    rpc  ReadSystemNotification(ReadNotifyRequest) returns (MediaEmpty);
+    rpc  DeleteSystemNotification(DeleteNotifyRequest) returns (MediaEmpty);
+    rpc  CustomerServiceToMail(stream CustomerServiceToMailReq) returns (MediaEmpty);
+    rpc  GetQRCode(GetQRCodeRequest) returns (QRCode);
+
+    rpc  GetThemes(GetThemeReq) returns (GetThemeRes);
+    rpc  GetKeys(GetKeyReq) returns(GetKeyRes);
+    rpc  NewTheme(NewThemeReq) returns (NewThemeRes);
+    rpc  NewKey(NewKeyReq) returns (NewKeyRes);
+    rpc  ModifyKey(ModifyKeyReq) returns (ModifyKeyRes);
+    rpc  DeleteKey(DeleteKeyReq) returns (DeleteKeyRes);
+    rpc  GetThemeArr(GetThemeArrReq) returns (GetThemeArrRes);
+
+    rpc  GetPicture(GetPictureReq) returns (GetPictureRes);
+    rpc  CreatePicture(CreatePictureReq) returns (MediaEmpty);
+    rpc  ModifyPicture(ModifyPictureReq) returns (MediaEmpty);
+    rpc  DeletePicture(DeletePictureReq) returns (MediaEmpty);
+    rpc  GetFrontPicture(GetFrontPictureReq) returns (GetFrontPictureRes);
+
+    rpc  GetSEODataList(GetSEODataListReq) returns (SEODataList);
+    rpc  CreateSEOData(CreateSEODataListReq) returns (MediaEmpty);
+    rpc  UpdateSEOData(UpdateSEODataReq) returns (MediaEmpty);
+    rpc  DeleteSEOData(DeleteSEODataReq) returns (MediaEmpty);
+
+
+    rpc  GetLanguage(GetLanguageReq) returns (GetLanguageRes);
+    rpc  GetLanguageKeyCategory(GetLanguageKeyCategoryReq) returns (GetLanguageKeyCategoryRes);
+    rpc  GetLanguageKey(GetKeyReq) returns (GetKeyRes);
+    rpc  ModifyLanguageKey(ModifyKeyReq) returns (ModifyKeyRes);
+    rpc  DeleteLanguageKey(DeleteKeyReq) returns (DeleteKeyRes);
+
+    rpc  TranslateLanguageKey(TransLanguageKeyReq) returns (TransLanguageKeyRes);
+    rpc  TranslateLanguage(TransLanguageReq) returns (TransLanguageRes);
+
+    rpc  ModifyLanguage(ModifyLanguageReq) returns (ModifyLanguageRes);
+    rpc  RequestMail(MailRequest) returns (MediaEmpty);
+    rpc  VerifyMail(MailVerifyRequest) returns (MediaEmpty);
+    rpc  SendMailBySystem(SendMailBySystemRequest) returns (MediaEmpty);
+    rpc  RegistrationSuccessMail(RegistrationSuccessMailReq) returns (MediaEmpty);
+    rpc  NewDeviceNotification(NewDeviceNotificationReq) returns (MediaEmpty);
+    rpc  WithdrawDepositNotification(WithdrawDepositNotificationReq) returns (MediaEmpty);
+    rpc  NewPromotionNotification(NewPromotionNotificationReq) returns (MediaEmpty);
+    rpc  RealNameAuthNotification(RealNameAuthNotificationReq) returns (MediaEmpty);
+    rpc  LimitOrderNotification(LimitOrderNotificationReq) returns (MediaEmpty);
+    rpc  MITOrderNotification(MITOrderNotificationReq) returns (MediaEmpty);
+    rpc  PriceUpDownNotification(PriceUpDownNotificationReq) returns (MediaEmpty);
+    rpc  RewardAuditNotification(RewardAuditNotificationReq) returns (MediaEmpty);
+    rpc  GetWordCloud(GetWordCloudRequest) returns (GetWordCloudResponse);
+    rpc  CreateNotificationSetting(CreateNotificationSettingReq) returns (MediaEmpty);
+    rpc  GetNotificationSetting(GetNotificationSettingReq) returns (GetNotificationSettingRes);
+    rpc  ModifyNotificationSetting(ModifyNotificationSettingReq) returns (MediaEmpty);
+    rpc  DeleteNotificationSetting(DeleteNotificationSettingReq) returns (MediaEmpty);
+
+    rpc  GetPersonalPageInfo(GetPersonalPageInfoReq) returns (GetPersonalPageInfoRes);
+
+    rpc  CreatePost(CreatePostReq) returns (MediaEmpty);
+    rpc  GetPost(GetPostReq) returns (GetPostRes);
+    rpc  GetPostList(GetPostListReq) returns (GetPostListRes);
+    rpc  ModifyPost(ModifyPostReq) returns (MediaEmpty);
+    rpc  DeletePost(DeletePostReq) returns (MediaEmpty);
+
+    rpc  CreatePostSave(CreatePostSaveReq) returns (MediaEmpty);
+    rpc  GetPostSaveList(GetPostSaveListReq) returns (GetPostSaveListRes);
+    rpc  ModifyPostSave(ModifyPostSaveReq) returns (MediaEmpty);
+
+    rpc  CreatePostReaction(CreatePostReactionReq) returns (MediaEmpty);
+    rpc  GetPostReactionList(GetPostReactionListReq) returns (GetPostReactionListRes);
+    rpc  ModifyPostReaction(ModifyPostReactionReq) returns (MediaEmpty);
+    
+    // forum post comment
+    rpc CreatePostComment(CreatePostCommentReq) returns (MediaEmpty);
+    rpc GetPostComment(GetPostCommentReq) returns (GetPostCommentRes);
+    rpc GetPostCommentHierachical(GetPostCommentHierachicalReq) returns (GetPostCommentHierachicalRes);
+    rpc CountPostComment(CountPostCommentReq) returns (CountPostCommentRes);
+    rpc ModifyPostComment(ModifyPostCommentReq) returns (MediaEmpty);
+    rpc DeletePostComment(DeletePostCommentReq) returns (MediaEmpty);
+    rpc MaskPostComment(MaskPostCommentReq) returns (MediaEmpty);
+
+    rpc  GetProductTagList(GetProductTagListReq) returns (GetProductTagListRes);
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+option go_package = "models/source";
+
+
+
+message ConnectionStatus {
+    bool FuturesStatus = 1;
+    bool StockStatus = 2;
+    bool CryptoStatus = 3;
+    bool ForexStatus = 4;
+}
+
+// message QuoteRequest {
+//   string exchange = 1;
+//   repeated string symbols = 2;
+// }
+
+message QuoteToRiskResponse {
+  string id = 1;
+  string productId = 2;
+  string buyPrice = 3;
+  string sellPrice = 4;
+  string closePrice = 5;
+  string openPrice = 6;
+}
+
+message QuoteToMatchResponse {
+  string id = 1;
+  string productId = 2;
+  string buyPrice = 3;
+  string sellPrice = 4;
+  string closePrice = 5;
+}
+
+message SourceEmpty {}
+
+service SourceService {
+    rpc GetConnectionStatus(SourceEmpty) returns (ConnectionStatus) {};
+	  rpc StreamQuotesToRisk(SourceEmpty) returns (stream QuoteToRiskResponse);
+	  rpc StreamQuotesToMatch(SourceEmpty) returns (stream QuoteToMatchResponse);
+}

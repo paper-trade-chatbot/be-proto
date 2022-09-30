@@ -1,0 +1,859 @@
+syntax = "proto3";
+option go_package = "models/promotion";
+
+message PromotionEventDisplay {
+  string name = 1;
+  string subtitle = 2;
+  EventType eventType = 3;
+  RewardType rewardType = 4;
+  PromotionType promotionType = 5;
+  int64 id = 6;
+  int64 showAtUnix = 7; 
+  int64 endAtUnix = 8;
+  int64 startAtUnix = 9;
+  bool needApply = 10;
+  RewardTime rewardTime = 11;
+  repeated AdSetting adSettingWeb = 12;
+  repeated AdSetting adSettingMobile = 13;
+  string bannerId = 14;
+}
+
+message PromotionEvent {
+  int64 id = 1;
+  int64 startAtUnix = 2;
+  int64 showAtUnix = 3;
+  int64 endAtUnix = 4;
+  string group = 5;
+  int64 uses = 6;
+  int64 limitUsersNum = 7;
+  bool needApply = 8;
+  int64 showEndAtUnix = 9;
+  bool nameVerifiedRequired = 10;
+  int64 tradeTimesRequired = 11;
+  bool youtubeShareRequired = 12;
+  int64 tradeAmountRequired = 13;
+  string otherConditionRequired = 14;
+  RewardSettingDetail  rewardSetting = 15;
+  EventSettingDetail eventSetting = 16;
+  int64 totalRewardCountLimit = 17;
+  int64 thisWeekAttenderNum = 18;
+  int64 lastWeekAttenderNum = 19;
+  EventStatus status = 20;
+  string memo = 21;
+  string name = 22;
+  string subtitle = 23;
+  EventType eventType = 24;
+  RewardType rewardType = 25;
+  PromotionType promotionType = 26;
+  string totalBudget = 27;
+  RewardTime rewardTime = 28;
+  repeated AdSetting adSettingWeb = 29;
+  repeated AdSetting adSettingMobile = 30;
+  string bannerId = 31;
+}
+
+message AdSetting {
+  int32 contentType = 1;
+  string mediaId = 2;
+  string context = 3;
+  string title = 4;
+  string content = 5;
+}
+
+message RewardTime {
+  RewardTimeType rewardTimeType = 1;
+  int32 rewardDays = 2;
+}
+
+enum RewardTimeType {
+  RewardTimeTypeReserved = 0;
+  ImmediateAfterAccomplish = 1;
+  DaysAfterAccomplish = 2;
+  ImmediateAfterEnd = 3;
+  DaysAfterEnd = 4;
+}
+
+enum EventStatus{
+  Reserved = 0;
+  Ready = 1 ;
+  Showing = 2 ;
+  Going = 3;
+  Expired = 4;
+  Closed = 5;
+  InActive = 6;
+}
+
+
+message GroupEvents{
+  repeated GroupEvent events=1;
+}
+
+message GroupEvent{
+  repeated PromotionEvent events = 1;
+  string group = 2;
+}
+
+enum PromotionType {
+  PromotionTypeReserved = 0;
+  Deposit = 1;
+  Referral = 2;
+}
+
+enum EventType {
+  Deposit_Reserved = 0;
+  Deposit_First = 1;
+  Deposit_Every_Time = 2;
+  Deposit_Accumulation = 3;
+  Deposit_Specific_Channel = 4;
+  Referral_First_Deposit = 5;
+  Referral_Accumulation_NewUser = 6;
+  Referral_Share_Link = 7;
+  Referral_Share_New_Trade = 8;
+}
+
+
+
+message DepositSetting{
+  FirstDepositSetting firstDeposit = 1;
+  EveryDepositSetting everyDeposit = 2;
+  AccumulationDepositSetting accumulationDeposit = 3;
+  SpecificChannelDepositSetting specificChannelDeposit = 4;
+}
+
+message ReferralSetting{
+  FirstDepositSetting firstDepositReferral = 1;
+  AccumulationReferralSetting accumulationReferral = 2;
+  ShareLinkSetting shareLink = 3;
+  ReferralTradeSetting referralTrade = 4;
+  int32 maximumReferralUsers = 5;
+}
+
+message EventSettingDetail {
+  DepositSetting depositSetting = 1;
+  ReferralSetting referralSetting = 2;
+  int32 intervalDays = 3;
+}
+
+message ReferralTradeSetting{
+  int64 accumulationTradeAmount = 1;
+  bool onlyFirstTrade = 2;
+}
+
+message ShareLinkSetting{
+  int32 requiredClicks = 1;
+  string shareToPlatform = 2;
+  int32 referreeIntervalDays = 3;
+}
+
+message AccumulationReferralSetting{
+  int32 referralUserNumRequired = 1;
+  bool isInviteCodeRequired = 2;
+}
+
+message FirstDepositSetting{
+  int64 minimumDeposit = 1;
+}
+
+message EveryDepositSetting{
+  int64 minimumDeposit = 1 ;
+  int64 minimumDepositTimes = 2;
+  int64 minimumDepositTimesInPeriod = 3;
+  int64 continuousDepositWeekTimes = 4;
+}
+
+message AccumulationDepositSetting{
+  int64 accumulationValueRequired = 1;
+}
+
+message SpecificChannelDepositSetting{
+  repeated int64 channelIds = 1;
+}
+
+message RewardSettingDetail {
+  RewardStockSetting drawStockSetting = 1;
+  RewardCashSetting cashSetting = 2;
+  RewardInterestSetting interestSetting = 3;
+  RewardSharesSetting drawSharesSetting = 4;
+  RewardBonusWithdrawSetting bonusWithdrawSetting = 5;
+  int64 freeToWithdrawAfterDays = 6;
+}
+
+message RewardStockSetting{
+  repeated DrawStocks stocks = 1;
+  int64 freeToSaleAfterDays = 2;
+}
+
+message DrawStocks{
+  string stockCode = 1;
+  int64 num = 2;
+  float price = 3;
+  string exchangeCode = 4;
+}
+
+message RewardBonusWithdrawSetting {
+  repeated  RewardRange ranges = 1;
+  RangeType  rangeType  = 2;
+}
+
+message RewardCashSetting {
+  repeated  RewardRange ranges = 1;
+  RangeType  rangeType  = 2;
+}
+
+message RewardSharesSetting {
+  repeated PrizePool prizePools = 1;
+  int32 freeToSaleAfterDays = 2;
+}
+
+message PrizePool {
+  int32 prizePoolNum = 1;
+  string budget = 2;
+  bool needAudit = 3;
+  int32 auditDeadline = 4;
+  repeated DrawShares shares = 5;
+  FeedBackMethod feedBack = 6;
+}
+
+message DrawShares {
+  string productCode = 1;
+  string exchangeCode = 2;
+  double marketPrice = 3;
+  double amount = 4;
+}
+
+message FeedBackMethod {
+  double fixed = 1;
+  double minAmount = 2;
+  double averageAmount = 3;
+}
+
+enum RangeType{
+  RangeType_Reserved = 0;
+  RangeType_Percentage = 1;
+  RangeType_FixValue = 2;
+}
+
+message RewardRange {
+  int64 from = 1;
+  int64 to = 2;
+  float percentage = 3;
+  int64 cashValue = 4;
+}
+
+message RewardInterestSetting {
+  int32 settleDayInWeek = 1;
+  int32 settleDayInMonth = 2;
+  SettleFrequencyType settlePeriod = 3;
+  float  annualRate = 4;
+}
+
+enum  SettleFrequencyType {
+  SettleFrequency_Reserved = 0;
+  SettleFrequency_Weekly = 1;
+  SettleFrequency_Monthly = 2;
+}
+
+enum  UserPromotionStatus {
+  UserPromotionStatusNone = 0;
+  Applied = 1;
+  RewardConditionQualified = 2;
+  NeedManuallyVerify = 3;
+  ClosedNormal = 4;
+  CancelByUser = 5;
+  CancelBySystem = 6;
+  User_Promotion_Expired = 7;
+}
+
+
+
+
+
+enum RewardType {
+  ReservedRewardType = 0;
+  Draw_Stock = 1;
+  Cash_Bonus = 2;
+  Interest_Bonus = 3;
+  Draw_Shares = 4;
+  Bonus_Withdraw = 5;
+}
+
+message PromotionEventDeleteReq {
+  int64 PromotionId = 1;
+}
+
+message ListEventRes{
+  repeated PromotionEvent events = 1;
+}
+
+message AttendEventReq{
+  string account = 1;
+  int64 promotionId = 2;
+}
+
+message ModifyPromotionReq{
+  int64 id = 1;
+  int64 startAtUnix = 2;
+  int64 showAtUnix = 3;
+  int64 endAtUnix = 4;
+  string group = 5;
+  int64 uses = 6;
+  int64 limitUsersNum = 7;
+  bool needApply = 8;
+  int64 showEndAtUnix = 9;
+  bool nameVerifiedRequired = 10;
+  int64 tradeTimesRequired = 11;
+  bool youtubeShareRequired = 12;
+  int64 tradeAmountRequired = 13;
+  string otherConditionRequired = 14;
+  RewardSettingDetail  rewardSetting = 15;
+  EventSettingDetail eventSetting = 16;
+  int64 totalRewardCountLimit = 17;
+  string memo = 18;
+  string name = 19;
+  string subtitle = 20;
+  EventType eventType = 21;
+  RewardType rewardType = 22;
+  PromotionType promotionType = 23;
+  string totalBudget = 24;
+  RewardTime rewardTime = 25;
+  repeated AdSetting adSettingWeb = 26;
+  repeated AdSetting adSettingMobile = 27;
+  string bannerId = 28;
+}
+
+enum EventApplyFilter {
+  EventApplyFilterReserved = 0;
+  EventNeedApply = 1;
+  EventNotNeedApply = 2;
+}
+
+message GetEventReq{
+  repeated EventStatus status = 1;
+  repeated EventType eventTypes = 2;
+  EventApplyFilter applyFilter = 3;
+}
+
+
+message GetEventRes{
+  repeated PromotionEventDisplay events = 1;
+}
+
+message DepositHandlerReq {
+  string account  = 1;
+  double depositAmount = 2;
+  string channel = 3;
+}
+
+
+message ReferralHandlerReq {
+  string account  = 1;
+  string referralAccount = 2;
+}
+
+enum TickUsedStatus {
+  TickUsedStatusNone = 0;
+  TickUsedStatusUsed = 1;
+  TickUsedStatusNotUsed = 2;
+}
+
+message GetUserPromotionReq{
+  int64 afterTimeUnix = 1;
+  int64 beforeTimeUnix = 2;
+  repeated int64 promotionId = 3;
+  int64 pageSize = 4;
+  int64 currentPage = 5;
+  repeated string accounts = 6;
+  repeated string group = 7;
+  string promotionName = 8;
+  repeated RewardType rewardType = 9;
+  string reward = 10;
+  repeated AuditStatus auditStatus = 11 ;
+  repeated RewardStatus  rewardStatus = 12;
+  string orderBy = 13;
+  string orderDirection = 14;
+  int64 auditDeadLineAfterTime = 15;
+  int64 auditDeadLineBeforeTime = 16;
+  int64 rewardValueMin = 17;
+  int64 rewardValueMax = 18;
+  repeated string stockCodes = 19;
+  repeated int64 ids = 20;
+  repeated UserPromotionStatus userPromotionStatus = 21;
+  repeated EventType eventTypes = 22;
+  bool getTotalRewardValue = 23;
+  int64 rewardBeforeTimeUnix = 24;
+  int64 rewardAfterTimeUnix = 25;
+  TickUsedStatus usedStatus = 26;
+  int64 passAfterTimeUnix = 27;
+  int64 passBeforTimeUnix = 28;
+  bool isReferrer = 29;
+  int64 usedAfterTimeUnix = 30;
+}
+
+enum RewardStatus{
+  ReservedRewardStatus = 0;
+  PendingReward = 1;
+  Rewarded = 2;
+  Canceled = 3;
+  Used = 4;
+}
+
+message PennyStockList{
+  repeated PennyStock stocks = 1;
+}
+
+message PennyStock{
+  string stockCode = 1;
+  float price = 2;
+  string exchangeCode = 3;
+}
+
+
+message UserPromotion{
+  int64 id = 1;
+  string account = 2;
+  UserPromotionStatus status = 3;
+  int64  promotionId = 4;
+  int64  rewardAt = 5;
+  int64  createdAt = 6;
+  int64  usedAt = 7;
+  string docForReview = 8;
+  string reviewReason = 9;
+  string group = 10;
+  string userName = 11;
+  RewardType rewardType = 12;
+  AuditStatus auditStatus = 13;
+  RewardStatus rewardStatus = 14;
+  string promotionName = 15;
+  string rewardStockCode = 16;
+  string rewardValue = 17;
+  int64 auditDeadLineAt = 18;
+  int64 accumulatedMoney = 19;
+  int64 passAt = 20;
+  int64 deriveFrom = 21;
+  string rewardQuantity = 22;
+  int64 sellAt = 23;
+}
+
+enum AuditStatus{
+  ReservedAuditStatus = 0;
+  Pending = 1;
+  Pass = 2;
+  NotPass = 3;
+  AutoPass = 4;
+}
+
+enum AuditStatusAtBack{
+  ReservedAuditStatusAtBack = 0;
+  AuditStatusAtBackSystem = 1;
+  AuditStatusAtBackCustomerService = 2;
+  AuditStatusAtBackAccountant = 3;
+  AuditStatusAtBackCashier = 4;
+  AuditStatusAtBackCancelReward = 5;
+  AuditStatusAtBackPassBySystem = 6;
+}
+
+enum ReviewStatus{
+  ReviewStatusNone = 0;
+  ReviewStatusReviewing = 1;
+  ReviewStatusPass = 2;
+  ReviewStatusReject = 3;
+}
+
+message GetUserPromotionRes{
+  repeated UserPromotion userPromotions = 1;
+  int64 totalPages = 2;
+  int64 totalRows = 3;
+  int64 currentPage = 4;
+  int64 nextPage = 5;
+  int64 previousPage = 6;
+  double totalRewardValue = 7;
+}
+
+message CancelUserPromotionRewardReq{
+  int64 id = 1;
+}
+
+message GetTicketsReq{
+  string account = 1;
+  RewardType rewardType = 2;
+}
+
+message GetTicketsRes{
+  repeated ReservedRewardEvent events = 1;
+  int64 stockTicketCount = 2;
+  int64 cashTicketCount = 3;
+  int64 sharesTicketCount = 4;
+}
+
+message ReservedRewardEvent {
+  int64 eventId = 1;
+  int64 ticketId = 2;
+  RewardType rewardType = 3;
+  int64 rewardAtUnix = 4;
+  string rewardValue = 5;
+  string rewardStockCode = 6;
+  string promotionName = 7;
+}
+
+message TicketRewardRequest {
+  string account = 1;
+  repeated int64 ticketIds = 2;
+  RewardType rewardType = 3;
+}
+
+message TicketReward {
+  RewardType rewardType = 1;
+  int64 ticketId = 2;
+  string name = 3;
+  string amount = 4;
+  string rewardValue = 5;
+  string rewardStockCode = 6;
+  int64 promotionId = 7;
+  bool needAudit = 8;
+}
+
+message TicketRewardResponse {
+  repeated TicketReward reward = 1;
+}
+
+message RealNameHandlerReq {
+   string account = 1;
+   int64 createdAtUnix = 2;
+}
+
+message GetUserPromotionHistoryReq {
+  string account = 1;
+};
+
+message UserPromotionRewardHistory {
+  int64 createdAtUnix = 1;
+  RewardType rewardType = 2;
+  string rewardValue = 3;
+  string stockCode = 4;
+  string name = 5;
+  int64 promotionId = 6;
+  int32 rewardStatus = 7;
+  int64 expireAtUnix = 8;
+  bool needAudit = 9;
+}
+
+message UserPromotionReferralHistory {
+  int64 eventId = 1;
+  string eventName = 2;
+  int32 requiredAccountCount = 3;
+  int32 eligibilityAccountCount = 4;
+  bool status = 5;
+}
+
+message UserPromotionRewardHistoryList {
+  repeated UserPromotionRewardHistory reward = 1;
+  repeated UserPromotionReferralHistory referral = 2;
+  int32 registeredAccountCount = 3;
+  string totalRewardAmount = 4;
+  double totalStockCount = 5;
+  int32 eligibilityAccountCount = 6;
+}
+
+message GetUserPromotionStockHistoryReq{
+  string account = 1;
+}
+
+message UserPromotionStockHistory {
+  string stockCode = 1;
+  string price = 2;
+}
+
+message UserPromotionStockHistoryList{
+  repeated UserPromotionStockHistory detail = 1;
+}
+
+message GetUserPromotionEligibilityHistoryReq{
+  string account = 1;
+}
+
+message UserPromotionEligibilityHistory {
+  string account = 1;
+  string promotionName = 2;
+}
+
+message UserPromotionEligibilityHistoryList{
+  repeated UserPromotionEligibilityHistory detail = 1;
+}
+
+message GetUserPromotionRegisteredHistoryReq{
+  string account = 1;
+}
+
+message UserPromotionRegisteredHistory {
+  string account = 1;
+  int64 createdAtUnix = 2;
+}
+
+message UserPromotionRegisteredHistoryList{
+  repeated UserPromotionRegisteredHistory detail = 1;
+};
+
+message GetUserPromotionDetailHistoryReq{
+  string account = 1;
+  int64 promotionId = 2;
+}
+
+message UserPromotionDetailHistory {
+  string account = 1;
+  bool isEligible = 2;
+  int64 createdAtUnix = 3;
+}
+
+message UserPromotionDetailHistoryList{
+  repeated UserPromotionDetailHistory detail = 1;
+}
+
+message AttendEventRes {
+  int64 id = 1;
+}
+
+message GetBonusHistoryNotifyReq{
+  string account = 1;
+}
+
+message BonusHistoryNotify {
+  int64 id = 1;
+  string promotionName = 2;
+  RewardType rewardType = 3;
+  double rewardValue = 4;
+  int32 amount = 5;
+  int64 time = 6;
+}
+
+message BonusHistoryNotifyList{
+  repeated BonusHistoryNotify list = 1;
+}
+
+message GetPromotionQRCodeReq {
+  string account = 1;
+  int64 promotionId = 2;
+  string language = 3;
+}
+
+message PromotionQRCode {
+  string qrCode = 1;
+  string url = 2;
+}
+
+message TradeHandlerReq {
+  string account = 1;
+  string amount = 2;
+}
+
+message GetUserPromotionHistoryAtBackReq {
+  ReviewStatus reviewStatus = 1;
+  int64 beforeAtUnix = 2;
+  int64 afterAtUnix = 3;
+  AuditStatusAtBack auditStatus = 4;
+  repeated string accounts = 5;
+  repeated string promotionIds = 6;
+  string orderBy = 7;
+  string orderDirection = 8;
+  UserPromotionPagination pagination = 9;
+}
+
+message UserPromotionPagination {
+  int32 currentPage = 1;
+  int32 pageSize = 2;
+}
+
+message UserPromotionHistoryListAtBack {
+  repeated UserPromotionHistoryAtBack list = 1;
+  PromotionPaginationInfo paginationInfo = 2;
+}
+
+enum SystemRejectReason {
+  SystemRejectReasonNone = 0;
+  SystemRejectReasonBelowMinimunDepositAmount = 1;
+  SystemRejectReasonBelowInWalletTime = 2;
+  SystemRejectReasonExceedBonusAmount = 3;
+  SystemRejectReasonAccountUnverified = 4;
+  SystemRejectReasonBelowAccumulatedTradeAmount = 5;
+  SystemRejectReasonBelowMinimunDepositCount = 6;
+  SystemRejectReasonDiscontinuousDeposit = 7;
+  SystemRejectReasonBelowAccumulatedDepositAmount = 8;
+  SystemRejectReasonBelowAccumulatedNewUser = 9;
+}
+
+message UserPromotionHistoryAtBack{
+  int64 id = 1;
+  int64 createdAtUnix = 2;
+  string account = 3;
+  string promotionName = 4;
+  RewardType rewardType = 5;
+  string rewardValue = 6;
+  string cancelReason = 7;
+  string remainedBudget = 8;
+  double remainedBudgetPercent = 9;
+  string rewardedBudget = 10;
+  double rewardedBudgetPercent = 11;
+  string remainedJackpotAmount = 12;
+  int32 totalJackpotCount = 13;
+  int32 remainedJackpotCount = 14;
+  ReviewStatus reviewStatus = 15;
+  AuditStatusAtBack auditStatusAtBack = 16;
+  repeated SystemRejectReason systemRejectReasons = 17;
+  string auditPhaseOneAccount = 18;
+  string auditPhaseTwoAccount = 19;
+  string auditPhaseThreeAccount = 20;
+  string auditPhaseFourAccount = 21;
+  int64 auditPhaseOneUnixTime = 22;
+  int64 auditPhaseTwoUnixTime = 23;
+  int64 auditPhaseThreeUnixTime = 24;
+  int64 auditPhaseFourUnixTime = 25;
+  int64 rewardAtUnix = 26;
+  bool rewarded = 27;
+  bool isJackpot = 28;
+  string stockCode = 29;
+  string docForReview = 31;
+  string promotionRestrict = 32;
+  string auditPhaseTwoMemo = 33;
+  string auditPhaseThreeMemo = 34;
+  string auditPhaseFourMemo = 35;
+  bool isForcedToPass = 36;
+  int64 passAtUnix = 37;
+  int64 rejectAtUnix = 38;
+}
+
+message AuditUserPromotionAtBackReq {
+  string account = 1;
+  int64 id = 2;
+  AuditStatusAtBack auditStatus = 3;
+  bool pass = 4;
+  string cancelReason = 5;
+  string memo = 6;
+}
+
+message PromotionPaginationInfo{
+  int32 currentPage = 1;
+  int32 nextPage = 2 ;
+  int32 previousPage = 3;
+  int32 totalPages = 4;
+  int32 totalRows = 5;
+}
+
+message DocumentReviewRequest {
+  int64 promotionId = 1;
+  string account = 2;
+  string document = 3;
+}
+
+message GetEventsOfUPHistoryListAtBackReq {
+  string pattern = 1;
+}
+
+message EventOfUPHistoryList {
+  int64 id = 1;
+  string name = 2;
+}
+
+message EventsOfUPHistoryList {
+  repeated EventOfUPHistoryList event = 1;
+}
+
+message GetPromotionReportReq {
+  int64 promotionId = 1;
+}
+
+message GetPromotionReportRes {
+  PromotionParticipateStatus promotionParticipateStatus = 1;
+  RewardGiveOutStatus rewardGiveOutStatus = 2;
+}
+
+message PromotionParticipateStatus {
+  AttendStatus attendStatus = 1;
+  UnfinishedList unfinishedList = 2;
+}
+
+message AttendStatus {
+  int64 participantsNum = 1;
+  int64 finishedNum = 2;
+  int64 selfRegisterNum = 3;
+  int64 inviteCodeRegisterNum = 4;
+  int64 inviteCodeNum = 5;
+}
+
+message UnfinishedList {
+  repeated Unfinished unfinished = 1;
+}
+
+message Unfinished {
+  string account = 1;
+  string userId = 2;
+  string contact = 3;
+  int32 verifyStatus = 4;
+  string referrer = 5;
+  int64 lastLoginTime = 6;
+  string depositAmount = 7;
+  string accumulatedAmount = 8;
+  string amountToCondition = 9;
+}
+
+message RewardGiveOutStatus {
+  repeated GiveOutStatus giveOutStatus = 1;
+}
+
+message GiveOutStatus {
+  int32 prizePoolNum = 1;
+  repeated GiveOut giveOut = 2;
+}
+
+message GiveOut {
+  string rewardItem = 1;
+  string rewardAmount = 2;
+  string gaveOutAmount = 3;
+}
+
+message ModifyPromotionStatusReq {
+  int64 id = 1;
+  bool isActive = 2;
+}
+
+service PromotionService {
+  rpc CreateEvent(PromotionEvent) returns (Empty) {};
+  rpc DeleteEvent(PromotionEventDeleteReq) returns (Empty) {};
+  rpc ListEvents(Empty) returns (ListEventRes) {};
+  rpc ModifyPromotion(ModifyPromotionReq) returns (Empty) {};
+  rpc AttendEvent(AttendEventReq) returns (AttendEventRes) {};
+  rpc GetEventByGroup(Empty) returns (GroupEvents) {};
+  rpc GetEvents(GetEventReq) returns (GetEventRes) {};
+  rpc DepositHandler(DepositHandlerReq) returns (Empty) {};
+  rpc ReferralHandler(ReferralHandlerReq) returns (Empty) {};
+  rpc GetUserPromotion(GetUserPromotionReq) returns(GetUserPromotionRes){};
+  rpc AuditUserPromotion(AuditUserPromotionReq) returns (Empty){};
+  rpc CancelUserPromotionReward(CancelUserPromotionRewardReq) returns (Empty){};
+  rpc GetTickets(GetTicketsReq) returns (GetTicketsRes){};
+  rpc RequestTicketReward(TicketRewardRequest) returns (TicketRewardResponse){};
+  rpc GetPennyStockList(Empty) returns (PennyStockList){};
+  rpc RealNameHandler(RealNameHandlerReq) returns (Empty){};
+  rpc GetUserPromotionHistory(GetUserPromotionHistoryReq) returns (UserPromotionRewardHistoryList){};
+  rpc GetUserPromotionStockHistory(GetUserPromotionStockHistoryReq) returns (UserPromotionStockHistoryList){};
+  rpc GetUserPromotionEligibilityHistory(GetUserPromotionEligibilityHistoryReq) returns (UserPromotionEligibilityHistoryList){};
+  rpc GetUserPromotionRegisteredHistory(GetUserPromotionRegisteredHistoryReq) returns (UserPromotionRegisteredHistoryList){};
+  rpc GetUserPromotionDetailHistory(GetUserPromotionDetailHistoryReq) returns (UserPromotionDetailHistoryList){};
+  rpc GetBonusHistoryNotify(GetBonusHistoryNotifyReq) returns (BonusHistoryNotifyList){};
+  rpc GetPromotionQRCode(GetPromotionQRCodeReq) returns (PromotionQRCode){};
+  rpc TradeHandler(TradeHandlerReq) returns (Empty){};
+  rpc GetUserPromotionHistoryAtBack(GetUserPromotionHistoryAtBackReq) returns (UserPromotionHistoryListAtBack){};
+  rpc AuditUserPromotionAtBack(AuditUserPromotionAtBackReq) returns (Empty){};
+  rpc DocumentReview(DocumentReviewRequest) returns (Empty){};
+  rpc GetEventsOfUPHistoryListAtBack(GetEventsOfUPHistoryListAtBackReq) returns (EventsOfUPHistoryList){};
+  rpc GetPromotionReport(GetPromotionReportReq) returns (GetPromotionReportRes){};
+  rpc ModifyPromotionStatus(ModifyPromotionStatusReq) returns (Empty){};
+}
+
+message AuditUserPromotionReq{
+  int64 id = 1;
+  bool pass = 2;
+  string reviewReason = 3;
+}
+
+message Empty {
+
+}
+

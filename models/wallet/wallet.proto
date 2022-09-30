@@ -1,0 +1,276 @@
+syntax = "proto3";
+option go_package = "models/wallet";
+
+enum WalletSide {
+    WALLETSIDE_NONE = 0;
+    WALLETSIDE_DEPOSIT = 1;
+    WALLETSIDE_WITHDRAW = 2;
+}
+
+enum WalletDashboardSearchType {
+    WALLETDASHBOARDSEARCHTYPE_NONE = 0;
+    WALLETDASHBOARDSEARCHTYPE_DAILY = 1;
+    WALLETDASHBOARDSEARCHTYPE_WEEKLY = 2;
+    WALLETDASHBOARDSEARCHTYPE_MONTHLY = 3;
+    WALLETDASHBOARDSEARCHTYPE_UNLIMITED = 4;
+}
+
+message WalletPagination {
+    int32 page = 1;
+    int32 pageSize = 2;    
+}
+
+message WalletPaginationInfo {
+    int32 currentPage = 1;
+    int32 nextPage = 2;
+    int32 previousPage = 3;
+	int32 totalPages = 4;
+	int32 totalRows = 5;
+}
+
+message Wallet {
+    string account = 1;
+    string currency = 2;
+    string wallet = 3;
+    int32 walletType = 4;
+}
+
+message WalletRecord {
+    string recordId = 1;
+    string account = 2;
+    string action = 3;
+    string beforeAmount = 4;
+    string afterAmount = 5;
+    string actionAmount = 6;
+    string modifier = 7;
+    string ip = 8;
+    int64  time = 9;
+    string comment = 10;
+    string currency = 11;
+    int32 walletType = 12;
+    string userId = 13;
+}
+
+message WalletRecordArray {
+    repeated WalletRecord walletRecords = 1;
+    WalletPaginationInfo paginationInfo = 2;
+}
+
+message WalletRecordQuery {
+    string account = 1;
+    string operator = 2;
+    int64 dateStart = 3;
+    int64 dateEnd = 4;
+    int32 recordType = 5;
+    string modifier = 6;
+    string ip = 7;
+    WalletPagination pagination = 8;
+    repeated string actions = 9;
+    repeated string orderBy = 10;
+    repeated string orderDirection = 11;
+}
+
+message WalletChange {
+    string account = 1;
+    string action = 3;
+    repeated string amount = 4;
+    string memo = 5;
+    string description = 6;
+    string ip = 7;
+    string modifier = 8;
+
+    string mainAccount = 9;
+    string subAccount = 10;
+
+    string mainAccountRole = 11;
+    string subAccountRole = 12;
+    int32 walletType = 13;
+
+    int32 dontRecordSum = 14;
+    bool Force = 15;
+}
+
+message ManualWalletChange {
+    string account = 1;
+    string action = 3;
+    string amount = 4;
+    string memo = 5;
+    string ip = 6;
+    string modifier = 7;
+
+    string mainAccount = 8;
+    string subAccount = 9;
+
+    string mainAccountRole = 10;
+    string subAccountRole = 11;
+    int32 walletType = 12;
+}
+
+
+message ModifyWalletResponse {
+   repeated WalletResponse walletResponse = 1;
+}
+
+message WalletResponse {
+    string message =  1;
+    string beforeAmount = 2;
+    string afterAmount = 3;
+    string currency = 4;
+    uint64 recordId = 5;
+}
+
+message Currency{
+    repeated string currency = 1;
+}
+
+message AccountQuery{
+    string account = 1;
+}
+
+message InterestRequest{
+    string account = 1;
+    int64 dateStart = 2;
+    int64 dateEnd = 3;
+    string annualInterest = 4;
+}
+
+message InterestResponse{
+    string message = 1;
+}
+
+message WithdrawAmtRequest{
+    string account = 1;
+
+}
+
+message WithdrawAmtResponse{
+    string account = 1;
+    string amount = 2;
+}
+
+message GetWalletDashboardRequest {
+    int64 startTime = 1;
+    int64 endTime = 2;
+    WalletDashboardSearchType searchType = 3;
+}
+
+message GetWalletDashboardResponse {
+    string startDate = 1;
+    string endDate = 2;
+    repeated WalletSumInfo walletSumInfo = 3;
+}
+
+message WalletSumInfo{
+    string  date = 1;
+    string  deposit = 2;
+    string  withdraw = 3;
+}
+
+message WalletPostingInfo{
+    string  walletAmount = 1;
+    string  deposit = 2;
+    string  withdraw = 3;
+    string  orderCloseProfit = 4;
+}
+
+message DepositWithdrawRecord {
+    string account = 1;
+    WalletSide side = 2;
+    string amount = 3;
+    string action = 4;
+    string gateway = 5;
+    string walletAmount = 6;
+    uint64 paymentRecordId = 7;
+    uint64 walletRecordId = 8;
+    string status = 9;
+    int64 createdAt = 10;
+    int64 updatedAt = 11;
+    string description = 12;
+    string userId = 13;
+}
+
+message EditDepositWithdrawRecordResponse {
+}
+
+message DepositWithdrawRecordQuery {
+    repeated string accounts = 1;
+    int64 dateStart = 2;
+    int64 dateEnd = 3;
+    WalletSide side = 4;
+    string action = 5;
+    repeated string status = 6;
+    repeated string orderBy = 7;
+    repeated string orderDirection = 8;
+    WalletPagination pagination = 9;
+    repeated string actions = 10;
+}
+
+message DepositWithdrawRecordArray {
+    repeated DepositWithdrawRecord records = 1;
+    WalletPaginationInfo paginationInfo = 2;
+}
+
+message RefundWithdrawRequest {
+    string account = 1;
+    string amount = 2;
+    int32 walletType = 3;
+}
+
+message RefundWithdrawResponse {
+    string message = 1;
+}
+
+message DeleteWalletRequest {
+    string account = 1;
+}
+
+message WalletEmpty {}
+
+message GetWalletInfoReq {
+    string account = 1;
+}
+
+message GetWalletInfoRes {
+    string wallet = 1;
+    string bonus = 2;
+    string creditForLoad = 3;
+}
+
+message ModifyWalletBonusReq {
+    string account = 1;
+    string amount = 2;
+}
+
+message GetDepositWithdrawAmountReq {
+    string account = 1;
+}
+
+message DepositWithdrawAmount {
+    string depositAmount = 1;
+    string withdrawAmount = 2;
+}
+
+
+service WalletService {
+    rpc CreateWallet(Wallet) returns (WalletResponse) {};
+    rpc GetWallet(Wallet) returns (Wallet) {};
+    rpc GetWalletRecord(WalletRecordQuery) returns (WalletRecordArray) {};
+    rpc ModifyWallet(WalletChange) returns (ModifyWalletResponse) {};
+    rpc DeleteWallet(DeleteWalletRequest) returns (WalletEmpty) {};
+    rpc GetCurrency(AccountQuery) returns (Currency) {};
+    rpc IssueInterest(InterestRequest)returns(InterestResponse){}
+    rpc GetWithdrawAmount(WithdrawAmtRequest) returns (WithdrawAmtResponse){};
+
+    rpc GetWalletDashboard(GetWalletDashboardRequest) returns(GetWalletDashboardResponse){};
+    rpc GetWalletPostingInfo(Wallet) returns(WalletPostingInfo){};
+
+    rpc AddDepositWithdrawRecord(DepositWithdrawRecord) returns(WalletEmpty){};
+    rpc EditDepositWithdrawRecord(DepositWithdrawRecord) returns(EditDepositWithdrawRecordResponse){};
+    rpc GetDepositWithdrawRecord(DepositWithdrawRecordQuery) returns(DepositWithdrawRecordArray){};
+
+    rpc ManualModifyWallet(ManualWalletChange) returns (ModifyWalletResponse) {};
+    rpc RefundWithdraw(RefundWithdrawRequest) returns (RefundWithdrawResponse) {};
+    rpc GetWalletInfo(GetWalletInfoReq) returns (GetWalletInfoRes) {};
+    rpc ModifyWalletBonus(ModifyWalletBonusReq) returns (WalletEmpty) {};
+    rpc GetDepositWithdrawAmount(GetDepositWithdrawAmountReq) returns (DepositWithdrawAmount) {};
+}

@@ -1,0 +1,32 @@
+syntax = "proto3";
+option go_package = "models/replay";
+
+
+message SetReplayReq {
+    bool play = 1;
+    int64 QueryStart = 2;
+    int64 QueryEnd = 3;
+    string productType = 4;
+    int32 times = 5;
+}
+
+message SetReplayRes {
+
+}
+
+message GetReplaySettingReq {
+
+}
+
+message GetReplaySettingRes {
+    bool play = 1;
+    int64 QueryStart = 2;
+    int64 QueryEnd = 3;
+    string productType = 4;
+    int32 times = 5;
+}
+
+service ReplayService{
+    rpc SetReplay(SetReplayReq) returns (SetReplayRes) {};
+    rpc GetReplaySetting(GetReplaySettingReq) returns (GetReplaySettingRes) {};
+}

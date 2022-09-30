@@ -1,0 +1,55 @@
+syntax = "proto3";
+option go_package = "models/quote";
+
+message GetConnectionResultReq {
+    string hello = 1;
+}
+
+message GetConnectionResultRes {
+    string world = 1;
+}
+
+message QuoteConnectionStatusRes{
+    bool status = 1;
+}
+
+message QuoteEmpty {}
+
+message LatestQuoteReq {
+    bool getAll = 1;
+    repeated string  symbols = 2;
+}
+
+
+message LatestQuote  {
+	int64 time           = 1;
+	string productId      = 2;
+	string yesterdayPrice = 3;
+	string openPrice      = 4;
+	string highPrice      = 5;
+	string lowPrice       = 6;
+	string closePrice     = 7;
+	string quantity       = 8;
+	string buyPrice       = 9;
+	string buyQuantity    = 10;
+	string sellPrice      = 11;
+	string sellQuantity   = 12;
+	string volume         = 13;
+	string priorSettle    = 14;
+}
+
+message LatestQuoteRes {
+    repeated LatestQuote quotes = 1;
+}
+
+message SetLatestQuoteReq {
+    LatestQuote quotes = 1;
+}
+
+service QuotesService {
+    rpc GetConnectionResult(GetConnectionResultReq) returns (GetConnectionResultRes) {};
+    rpc GetConnectionStatus(QuoteEmpty) returns (QuoteConnectionStatusRes) {};
+    rpc BroadcasterReloadProducts(QuoteEmpty) returns (QuoteEmpty) {};
+    rpc GetLatestQuote(LatestQuoteReq) returns (LatestQuoteRes) {};
+    rpc SetLatestQuote(SetLatestQuoteReq) returns (QuoteEmpty) {};
+}
