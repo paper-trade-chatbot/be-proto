@@ -1,16 +1,7 @@
 syntax = "proto3";
 option go_package = "models/member";
-
-enum RegisterType {
-    Register_NONE = 0;
-    ACCOUNT = 1;
-    LINE = 2;
-    FACEBOOK = 3;
-    GOOGLE_WEB = 4;
-    GOOGLE_APP = 5;
-    APPLE = 6;
-    GOOGLE_APP_APPLE = 7;
-}
+package member;
+import "general/general.proto";
 
 enum RoleCodeType {
     ROLECODE_NONE = 0;
@@ -39,487 +30,74 @@ enum VerifyStatus {
     VERIFY_FAILED = 4;
 }
 
-enum VerificationFailedReason {
-    REASON_NONE = 0;
-    NAME_UNMATCHED = 1;
-    IDNUMBER_UNMATCHED = 2;
-    BIRTHDATE_UNMATCHED = 3;
-    INFO_BLURRED = 4;
-    INFO_ERROR = 5;
-    OTHERS = 6;
-}
-
-enum Book {
-    BOOK_NONE = 0;
-    BOOK_A = 1;
-    BOOK_B = 2;
-}
-
-enum MemberDashboardSearchType {
-    MEMBERDASHBOARDSEARCHTYPE_NONE = 0;
-    MEMBERDASHBOARDSEARCHTYPE_DAILY = 1;
-    MEMBERDASHBOARDSEARCHTYPE_WEEKLY = 2;
-    MEMBERDASHBOARDSEARCHTYPE_MONTHLY = 3;
-    MEMBERDASHBOARDSEARCHTYPE_UNLIMITED = 4;
-}
-
-message User {
-    string account = 1;
-    RoleCodeType role_code = 2;
-    StatusType status = 3;
-    VerifyStatus verifyStatus = 4;
-    string password = 5;
-    string name = 6;
-    string phone = 7;
-    string upline = 8;
-    string uplineName = 9;
-    bool isCover = 10;
-    int32 portionOfProfit = 11;
-    int32 uplinePortionOfProfit = 12;
-    int32 minPortionOfProfit = 14;
-    double riskLimit = 15;
-    int32 absLevel = 16;
-    int64 createdAtUnix = 17;
-    string ip = 18;
-    string loginAt = 19;
-    UserInfo userInfo = 20;
-    bool changeAvailableProduct = 21;
-    AvailableProduct availableProduct = 22;
-    string memo = 23;
-    string mail = 24;
-    RegisterType regiser_type = 25;
-    string lineId = 26;
-    string googleId = 27;
-    string facebook = 28;
-    string countryCode = 29;
-
-    repeated string templateName = 30;
-    repeated string template = 31;
-    string feeSetting = 32;
-    repeated string templateId = 33;
-    string inviteCode = 34;
-    int64 verifiedAtUnix = 35;
-
-    double interest = 36;
-    double uplineInterest = 37;
-    string userId = 38;
-    string deviceToken = 39;
-    string fcmToken = 40;
-    string referrer = 41;
-
-    Book book = 42;
-
-    string Nickname = 43;
-    string About = 44;
-    string Thumbnail = 45;
-    string Banner = 46;
-}
-
-message UserInfo {
-    string bankName = 1;
-    string bankUuid = 2;
-    string realName = 3;
-    string birthDate = 4;
-    string idNumber = 5;
-    string idFront = 6;
-    string idBack = 7;
-    string bankAccount = 8;
-    string bankBranch = 9;
-    string country = 10;
-}
-
-message AvailableProduct {
-    bool cfd = 1;
-    bool futures = 2;
-    bool stock = 3;
-    bool warrant = 4;
-    bool crypto = 5;
-}
-
-message AccountInfo {
-    string mainAccount = 1;
-    string mainAccountRole = 2;
-    string subAccount = 3;
-    string subAccountRole = 4;
-    string ip = 5;
-}
-
-message ModifyUserRequest {
-    AccountInfo operatorInfo = 1;
-    User user = 2;
-}
-
-message CreateUserRequest {
-    AccountInfo operatorInfo = 1;
-    User user = 2;
-    string socialLoginToken = 3;
-}
-
-message ModifyUserResponse {
-    string message = 1;
-}
-
-message GetUserList {
-    string account = 1;
-    RoleCodeType role_code = 2;
-    int32 level = 3;
-    string queryRole = 4;
-    int32 onlineStatus = 5;
-    string upline = 6;
-    int32 absLevel = 7;
-    StatusType status = 8;
-    repeated string specificAccounts = 9;
-}
-
-message GetUserListResponse {
-    repeated UserListData data = 1;
-}
-
-message UserListData {
-    string account = 1;
-    StatusType status = 2;
-    string upline = 3;
-    int32 absLevel = 4;
-    string clientName = 5;
-    int32 downlineAgents = 6;
-    int32 downlineMembers = 7;
-    int32 portionOfProfit = 8;
-    string createdAt = 9;
-    VerifyStatus verifyStatus = 10;
-    string wallet = 11;
-    string phone = 12;
-    string countryCode = 13;
-    bool isOnline = 14;
-    int64 loginAtUnix = 15;
-    string ip = 16;
-    string userId = 17;
-    string mail = 18;
-    string idNumber = 19;
-}
-
-message CheckUserResponse {
-    string message =  1;
-    string role = 2 ;
-    string status = 3;
-    bool firstLogin = 4;
-    bool survey = 5;
-    string mainAccount = 6;
-    string mainAccountGroup = 7;
-    bool newDevice = 8;
-    string email = 9;
-    string nickname = 10;
-}
-
-message CheckResponse {
-    string message = 1;
-}
-
-message VerifyRequest {
-    string account = 1;
-    string verify = 2;
-    repeated string reason = 3;
-    string others = 4;
-}
-
-message VerifyInfoRequest {
-    string account = 1;
-}
-
-message VerifyInfoResponse {
-    string realName = 1;
-    string idNumber = 2;
-    string birthDate = 3;
-    string idFront = 4;
-    string idBack = 5;
-    string country = 6;
-    repeated string reason = 7;
-}
-
-message ModifyVerificationRequest {
-    string account = 1;
-    repeated string reason = 2;
-    string others = 3;
-}
-
-message ModifyVerificationResponse {
-    string message = 1;
-}
-
-message UserInfoReq {
-    string account = 1;
-}
-
-message UserInfoResp {
-    int32 uplineLevel = 1;
-    string uplineAccount = 2;
-    string account = 3;
-    string name = 4;
-    string phone = 5;
-    string bank = 6;
-    string bankAccount = 7;
-    int32 animalIcon = 8;
-    string realName = 9;
-    string idNumber = 10;
-    string birthDate = 11;
-    string idFront = 12;
-    string idBack = 13;
-    string status = 14;
-    string verifyStatus = 15;
-    repeated int32 reason = 16;
-    string countryCode = 17;
-    string inviteCode = 18;
-    string feeSetting = 19;
-    AvailableProduct availableProduct = 20;
-    int32 uplinePortionOfProfit = 21;
-    string mail = 22;
-    string country = 23;
-    string bankUuid = 24;
-    double uplineInterest = 25;
-    double interest = 26;
-    string userId = 27;
-    string Nickname = 28;
-    string About = 29;
-    string Thumbnail = 30;;
-    string Banner = 31;
-
-}
-
-message GetPaperTradingInfoReq {
-    string account = 1;
-}
-
-message GetPaperTradingInfoRes {
-    bool firstLogin = 1;
-    string status = 2;
-}
-
-message AllUserReq {
-    string role = 1;
-}
-
-message AllUserResp {
-    repeated string account = 1;
-}
-
-message CheckSocialUserReq {
-    string externalId = 1;
-    RegisterType loginType = 2;
-    bool isPaperTrading = 3;
-    string ip = 4;
-    string fcmToken = 5;
-}
-
-message CheckSocialUserResponse {
-    string account = 1;
-    bool firstLogin = 2;
-    bool newUser = 3;
-}
-
-message GetMemDashboardRequest {
-    int64 startTime = 1;
-    int64 endTime = 2;
-    MemberDashboardSearchType searchType = 3;
-}
-
-message GetMemDashboardResponse {
-    string startDate = 1;
-    string endDate = 2;
-    repeated MemberSumInfo memberSumInfo = 3;
-}
-
-message MemberSumInfo{
-    string date = 1;
-    int32  newMember = 2;
-    int32  totalMember = 3;
-    int32  frequentMember = 4;
-}
-
-message MemberBasicInfo{
-    string account = 1;
-    string clientName = 2;
-    string userId = 3;
-}
-
-message GetAllMemberRequest{
-
-}
-
-message GetAllMemberResponse{
-    repeated MemberBasicInfo members = 1;
-}
-
-message GetPermissionRequest{
-    string account = 1;
-}
-
-message GetPermissionResponse{
-    string mainAccount = 1;
-    string subAccount = 2;
-    bool isSubAccount = 3;
-    string mainAccountGroup = 4;
-    string subAccountGroup = 5;
-    string mainAccountStatus = 6;
-    string subAccountStatus = 7;
-    string mainAccountRole = 8;
-    string subAccountRole = 9;
-    string nickname = 10;
-}
-
-message ChangeStatusRequest{
-    string account = 1;
-    StatusType status = 2;
-    bool enabledAll = 3;
-
-    string ip = 4;
-
-    string mainAccount = 5;
-    string subAccount = 6;
-
-    string mainAccountRole = 7;
-    string subAccountRole = 8;
-}
-
-message UserResponse {
-    string message = 1;
-}
-
-message UserLoginStatusReq {
-    string account = 1;
-}
-
-message MemberEmpty {}
-
-message GetUserRoleReq {
-    string account = 1;
-}
-
-message GetUserRoleRes {
-    string role = 1;
-}
-
-message ReplaceGroupRequest{
-    string oldGroup = 1;
-    string newGroup = 2;
-    string operator = 3;
-    string memo = 4;
-    string ip = 5;
-}
-
-message GetUserBaseReq {
-    string account = 1;
-    string countryCode = 2;
-    string phone = 3;
-    string lineId = 4;
-    string googleId = 5;
-    string facebookId = 6;
-    string appleId = 7;
-    string inviteCode = 8;
-}
-
-message UserBase {
-    string account = 1;
-    RoleCodeType roleCode = 2;
-    string permissionGroup = 3;
-    StatusType status = 4;
-    VerifyStatus verifyStatus = 5;
-    string verifyReason = 6;
-    string clientName = 7;
-    string countryCode = 8;       
-    string phone = 9;       
-    string mail = 10;
-    RegisterType registerType      = 11;
-    string lineId = 12;
-    string facebookId = 14;    
-    string googleId = 15;   
-    string appleId = 16;   
-    string memo = 17; 
-    int64 openDateUnix = 18;     
-    int64 loginAtUnix = 19;  
-    int64 createdAtUnix = 20;   
-    int64 updatedAtUnix = 21;   
-    string createdBy = 22;   
-    string updatedBy = 23;    
-    string inviteCode = 24;  
-    int64 verifiedAtUnix = 25;   
-    string ip = 26;   
-    string nickname = 27; 
-}
-
-message NewSubAccountRequest{
-    RoleCodeType role_code = 1;
-    string account = 2;
-    string name = 3;
-    string password = 4;
-    string operator = 5;
-    string ip = 6;
-    string group = 7;
-}
-
-message GetSubAccountsRequest{
-    string account = 1;
-
-}
-
-message SubAccount{
-    string account = 1;
-    string name = 2;
-    StatusType status = 3;
-    RoleCodeType role_code = 4;
-    string ip = 5;
-    string group = 6;
-    string userId = 7;
-}
-
-message GetSubAccountsResponse{
-    repeated SubAccount subAccount = 1;
-
-}
-
-message ModifySubAccountRequest{
-    string account = 1;
-    string password = 2;
-    string name = 3;
-
-    string operator = 4;
-    string ip = 5;
-}
-
-message ModifySubAccountResponse{
-    string message = 1;
-}
-
-message IsSubAccountRequest{
-    string mainAccount = 1;
-    string subAccount = 2;
-
-}
-
-message IsSubAccountResponse{
-    string message = 1;
-}
-
-
-message ChangeSubAccountStatusRequest{
-    string mainAccount = 1;
-    string subAccount = 2;
-    StatusType status = 3;
-    string modifier = 4;
-    string ip = 5;
-}
-
-message GetUserSurveyResultRequest {
-    string kind = 1;
-    string account = 2;
-    string replys = 3;
-}
-
-message GetUserSurveyResultResponse {
-    string result = 1;
-}
-
 enum VerifyType {
     VerifyTypePhone = 0; 
     VerifyTypeMail = 1;
+}
+
+message Member {
+    string account = 1;
+    string mail = 2;
+    string lineID = 3;
+    string countryCode = 4;
+    string phone = 5;
+    RoleCodeType role_code = 6;
+    StatusType status = 7;
+    VerifyStatus verifyStatus = 8;
+    int64 createdAtUnix = 9;
+    int64 loginAtUnix = 10;
+}
+
+message CreateMemberReq {
+    string account = 1;
+    string password = 2;
+    string mail = 3;
+    string lineID = 4;
+    RoleCodeType role_code = 5;
+    StatusType status = 6;
+    VerifyStatus verifyStatus = 7;
+    int64 createdAtUnix = 8;
+}
+
+message CreateMemberRes {
+    int32 id = 1;
+}
+
+message GetMemberReq {
+    oneof member {
+        int32 id = 1;
+        string account = 2;
+        string mail = 3;
+        string lineID = 4;
+    }
+}
+
+message GetMemberRes {
+    Member member = 1;
+}
+
+message GetMembersReq {
+    general.Pagination pagination = 1;
+}
+
+message GetMembersRes {
+    repeated Member member = 1;
+    general.PaginationInfo paginationInfo = 2;
+}
+
+message ModifyMemberReq {
+    oneof member {
+        int32 id = 1;
+        string account = 2;
+        string mail = 3;
+        string lineID = 4;
+    }
+    optional StatusType status = 5;
+    optional VerifyStatus verifyStatus = 6;
+}
+
+message ModifyMemberRes {
+    int32 id = 1;
 }
 
 message ResetPasswordReq {
@@ -527,310 +105,31 @@ message ResetPasswordReq {
     VerifyType verifyType = 2;
     string countryCode = 3;
     string phone = 4;
-    string email = 5;    
+    string email = 5; 
 }
 
-enum CheckType{
-    CheckExist = 0;
-    CheckNotExist = 1;
+message ResetPasswordRes {
+    bool success = 1;
 }
 
-message CheckMailRequest {
-    string mail = 1;
-    CheckType checkType = 2;
+message DeleteMemberReq {
+    oneof member {
+        int32 id = 1;
+        string account = 2;
+        string mail = 3;
+        string lineID = 4;
+    }
 }
 
-message CheckPhoneRequest {
-    string countryCode = 1;
-    string phone = 2;
-    CheckType checkType = 3;
+message DeleteMemberRes {
+    bool success = 1;
 }
 
-message GetTokenUserReq{
-    string account = 1;
-}
-
-message GetTokenUserRes{
-    string account = 1;
-    string mainAccount = 2;
-    string mainAccountGroup = 3;
-}
-
-message CountryCode {
-    string country = 1;
-    string countryCode = 2;
-}
-
-message RegisterBankInfo {
-    string country = 1;
-    repeated BankInfo bankInfo = 2;
-}
-
-message BankInfo {
-    string name = 1;
-    string code = 2;
-    string uuid = 3;
-}
-
-message RegisterInfo {
-    repeated CountryCode countryCode = 1;
-    repeated RegisterBankInfo bank = 2;
-}
-
-message Bank {
-    string name = 1;
-    string code = 2;
-    string uuid = 3;
-    string country = 4;
-}
-
-message CheckCountryRequest {
-    string country = 1;
-}
-
-message CheckBankRequest {
-    string uuid = 1;
-    string account = 2;
-}
-
-message GetBankRequest {
-    string uuid = 1;
-}
-
-message ActivateAccountRequest {
-    string account = 1;
-    string inviteCode = 2;
-    string bankAccount = 3;
-    string bank = 4;
-}
-
-message GetUserSettingReq {
-    string account = 1;
-}
-
-message GuidelineSetting {
-    bool webOverview = 1;
-    bool webMarkets = 2;
-    bool webPosition = 3;
-    bool webDetails = 4;
-    bool webTrade = 5;
-    bool webInfo = 6;
-    bool mobileMarkets = 7;
-    bool mobileInfo = 8;
-    bool mobileQuotes = 9;
-    bool mobilePosition = 10;
-    bool mobileAccount = 11;
-    bool appMarkets = 12;
-    bool appInfo = 13;
-    bool appQuotes = 14;
-    bool appPosition = 15;
-    bool appAccount = 16;
-}
-
-message UserFrontPageSetting {
-    GuidelineSetting guideline = 1;
-}
-
-message UpdateUserSettingReq {
-    string account = 1;
-    string updater = 2;
-}
-
-
-message GetUserBasicInfoRequest {
-    repeated string custNumber = 1;
-
-}
-
-message GetUserBasicInfoResponse {
-    repeated UserBasicInfoStruct users = 1;
-}
-
-message UserBasicInfoStruct {
-    string userId = 1;
-    string custNumber = 2;
-    string name = 3;
-    string upline = 4;
-    string clientName = 5;
-    string contact = 6;
-    string uplineName = 7;
-}
-
-message DeleteUserFcmTokenReq {
-    string account = 1;
-}
-
-message GetUserWithFcmTokenReq {
-    repeated string accounts = 1;
-}
-
-message GetUserWithFcmTokenRes {
-    repeated AccountFcmTokenPair accountFcmTokenPairs = 1;
-}
-
-message AccountFcmTokenPair {
-    string account = 1;
-    string fcmToken = 2;
-}
-
-message GetUserWithdrawDepositNotifyInfoReq {
-    string account = 1;
-}
-
-message GetUserNotificationInfoReq {
-    string account = 1;
-}
-
-message GetUserWithdrawDepositNotifyInfoRes {
-    string email = 1;
-    string phoneNumber = 2;
-    string fcmToken = 3;
-}
-
-message GetUserNotificationInfoRes {
-    string email = 1;
-    string phoneNumber = 2;
-    string fcmToken = 3;
-}
-
-message GetPromotionParticipateStatusReq {
-    int64 startAtUnix = 1;
-    int64 endAtUnix = 2;
-}
-
-message GetPromotionParticipateStatusRes {
-    UserAttendStatus attendStatus = 1;
-    UnfinishedUserList unfinishedList = 2;
-}
-
-message UserAttendStatus {
-    int64 participantsNum = 1;
-    int64 finishedNum = 2;
-    int64 selfRegisterNum = 3;
-    int64 inviteCodeRegisterNum = 4;
-    int64 inviteCodeNum = 5;
-}
-
-message UnfinishedUserList {
-    repeated UnfinishedUser unfinished = 1;
-}
-
-message UnfinishedUser {
-    string account = 1;
-    string userId = 2;
-    string contact = 3;
-    int32 verifyStatus = 4;
-    string referrer = 5;
-    int64 lastLoginTime = 6;
-}
-
-message GetAvailableProductReq{
-    string account = 1;
-}
-
-message GetAvailableProductRes{
-    string account = 1;
-    AvailableProduct availableProduct = 2;
-}
-
-message GetWithdrawBankInfoReq{
-    string account = 1;
-}
-
-message GetWithdrawBankInfoRes{
-    string account = 1;
-    string bankName = 2;
-    string bankUuid = 3;
-    string bankAccount = 4;
-    string bankBranch = 5;
-    string bankCode = 6;
-}
-
-message GetMembersByBookReq{
-    Book book = 1;
-}
-
-message GetMembersByBookRes{
-    repeated string members = 1;
-}
-
-message GetProfileInfoReq {
-    string account = 1;
-}
-
-message GetProfileInfoRes {
-    string nickname = 1;
-    string about = 2;
-    string thumbnail = 3;
-    string profileBanner = 4;
-}
-
-service UserService {
-    rpc GetUser(User) returns (User){};
-    rpc GetUserBase(GetUserBaseReq) returns (UserBase){};
-    rpc CreateUser(CreateUserRequest) returns (MemberEmpty){};
-    rpc ModifyUser(ModifyUserRequest) returns (MemberEmpty){};
-    rpc CheckUser(User) returns (CheckUserResponse){};
-    rpc CheckSocialUser(CheckSocialUserReq) returns (CheckSocialUserResponse){};
-    rpc CheckAccount(User) returns (CheckResponse){};
-    rpc CheckNickname(User) returns (CheckResponse){};
-    rpc CheckName(User) returns (CheckResponse){};
-    rpc CheckPhone(CheckPhoneRequest) returns (CheckResponse){};
-    rpc CheckMail(CheckMailRequest) returns (MemberEmpty){};
-    rpc GetDownlines(GetUserList) returns(GetUserListResponse){};
-    rpc QuickCreateUser(CreateUserRequest) returns (MemberEmpty){};
-    rpc VerifyUserInfo(VerifyRequest) returns(MemberEmpty){};
-    rpc GetVerifyUserInfo(VerifyInfoRequest) returns(VerifyInfoResponse){};
-    rpc ModifyFailedUserInfoReason(ModifyVerificationRequest) returns(ModifyVerificationResponse){};
-    rpc GetUserInfo(UserInfoReq) returns(UserInfoResp){};
-    rpc GetPaperTradingInfo(GetPaperTradingInfoReq) returns (GetPaperTradingInfoRes){};
-    rpc GetAllUserByRole(AllUserReq) returns(AllUserResp){};
-    rpc GetUserSurveyResult(GetUserSurveyResultRequest) returns(GetUserSurveyResultResponse){};
-    rpc GetUserRecommendation(GetUserSurveyResultRequest) returns(GetUserSurveyResultResponse){};
-
-    rpc GetMemberDashboard(GetMemDashboardRequest) returns(GetMemDashboardResponse){};
-
-    rpc GetAllMember(GetAllMemberRequest) returns(GetAllMemberResponse){};
-    rpc SocialCreateUser(CreateUserRequest) returns (MemberEmpty){};
-
-    rpc GetPermissionInfo(GetPermissionRequest) returns(GetPermissionResponse){}
-
-    rpc ChangeStatus(ChangeStatusRequest) returns(UserResponse){};
-    rpc KeepUserOnlineStatus(UserLoginStatusReq) returns (MemberEmpty){};
-    rpc CreateUserLoginTime(UserLoginStatusReq) returns (MemberEmpty){};
-    rpc DeleteUserLoginTime(UserLoginStatusReq) returns (MemberEmpty){};
-
-    rpc GetUserRole(GetUserRoleReq) returns (GetUserRoleRes){}
-
-    rpc ReplaceGroup(ReplaceGroupRequest) returns(UserResponse){};
-
-    rpc CreateSubAccount(NewSubAccountRequest) returns(UserResponse){};
-    rpc IsSubAccount(IsSubAccountRequest) returns(IsSubAccountResponse){};
-    rpc GetAllSubAccounts(GetSubAccountsRequest) returns(GetSubAccountsResponse){};
-    rpc ModifySubAccount(ModifySubAccountRequest) returns(ModifySubAccountResponse){};
-    rpc ChangeSubAccountStatus(ChangeSubAccountStatusRequest) returns(UserResponse){};
-    rpc ResetPassword(ResetPasswordReq) returns (MemberEmpty){};
-
-    rpc GetTokenUser(GetTokenUserReq) returns (GetTokenUserRes){};
-    rpc GetRegisterInfo(MemberEmpty) returns (RegisterInfo){};
-    rpc CheckCountry(CheckCountryRequest) returns (MemberEmpty){};
-    rpc CheckBank(CheckBankRequest) returns (MemberEmpty){};
-    rpc ActivateAccount(ActivateAccountRequest) returns (MemberEmpty){};
-    rpc GetUserFrontPageSetting(GetUserSettingReq) returns (UserFrontPageSetting){};
-    rpc UpdateUserFrontPageSetting(UpdateUserSettingReq) returns (MemberEmpty){};
-
-    rpc GetUserBasicInfo(GetUserBasicInfoRequest) returns (GetUserBasicInfoResponse){};
-    rpc GetUserWithdrawDepositNotifyInfo(GetUserWithdrawDepositNotifyInfoReq) returns (GetUserWithdrawDepositNotifyInfoRes){};
-    rpc GetUserWithFcmToken(GetUserWithFcmTokenReq) returns (GetUserWithFcmTokenRes){};
-    rpc DeleteUserFcmToken(DeleteUserFcmTokenReq) returns (MemberEmpty){};
-    rpc GetUserNotificationInfo(GetUserNotificationInfoReq) returns (GetUserNotificationInfoRes){};
-    rpc GetPromotionParticipateStatus(GetPromotionParticipateStatusReq) returns (GetPromotionParticipateStatusRes){};
-
-    rpc GetAvailableProduct(GetAvailableProductReq) returns(GetAvailableProductRes){}
-    rpc GetWithdrawBankInfo(GetWithdrawBankInfoReq) returns(GetWithdrawBankInfoRes){}
-
-    rpc GetMembersByBook(GetMembersByBookReq) returns(GetMembersByBookRes){}
-    rpc GetBank(GetBankRequest) returns (Bank){}
-
-    rpc GetProfileInfo(GetProfileInfoReq) returns (GetProfileInfoRes){};
+service MemberService {
+    rpc CreateMember(CreateMemberReq) returns (CreateMemberRes);
+    rpc GetMember(GetMemberReq) returns (GetMemberRes);
+    rpc GetMembers(GetMembersReq) returns (GetMembersRes);
+    rpc ModifyMember(ModifyMemberReq) returns (ModifyMemberRes);
+    rpc ResetPassword(ResetPasswordReq) returns (ResetPasswordRes){};
+    rpc DeleteMember(DeleteMemberReq) returns (DeleteMemberRes){};
 }

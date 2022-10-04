@@ -1,0 +1,16 @@
+syntax = "proto3";
+option go_package = "models/member";
+package general;
+
+message Pagination {
+    int32 page = 1;
+    int32 pageSize = 2;
+}
+
+message PaginationInfo {
+    int32 currentPage = 1;
+    int32 nextPage = 2 ;
+    int32 previousPage = 3;
+    int32 totalPages = 4;
+    int32 totalRows = 5;
+}

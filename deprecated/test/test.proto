@@ -1,0 +1,16 @@
+syntax = "proto3";
+option go_package = "models/test";
+
+
+message testReq {
+    string data = 1;
+}
+
+message testRes {
+    string code = 1;
+    string message = 2;
+}
+
+service TestService {
+    rpc Test(testReq) returns (testRes) {};
+}
