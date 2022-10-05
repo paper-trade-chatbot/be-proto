@@ -1,0 +1,21 @@
+# System specific files
+*.exe
+*.dll
+*.so
+*.dylib
+.DS_Store
+
+# vim swap files
+*.swp
+*.swo
+*.swn
+*.swm
+
+# govendor packages
+!vendor/vendor.json
+vendor/*
+
+#vscode
+.vscode/*
+
+

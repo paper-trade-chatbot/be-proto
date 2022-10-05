@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "models/member";
+option go_package = "github.com/paper-trade-chatbot/be-proto/general";
 package general;
 
 message Pagination {

@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "models/test";
+option go_package = "github.com/paper-trade-chatbot/be-proto/test";
 
 
 message testReq {
