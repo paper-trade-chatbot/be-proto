@@ -1,0 +1,98 @@
+syntax = "proto3";
+option go_package = "github.com/paper-trade-chatbot/be-proto/auth";
+
+message LoginReq {
+    string account = 1;
+    string password = 2;
+    string ip = 3;
+}
+
+message LoginRes {
+    string account = 1;
+    string accessToken = 2;
+    string renewToken = 3;
+}
+
+message LogoutReq {
+    string account = 1;
+}
+
+message LogoutRes {
+    string message = 1;
+}
+
+message CheckTokenReq {
+    string accessToken = 1;
+    string ip = 3;
+    string authCode = 4;
+}
+
+message CheckTokenRes {
+    string Account = 1;
+    string Role = 2;
+    string Status = 3;
+    string Group = 4;
+}
+
+message GetPermissionReq{
+    string group = 1;
+}
+
+message GetPermissionRes{
+    repeated string permissions = 1;
+}
+
+message Group{
+    string code = 1;
+    string name = 2;
+    string memo = 3;
+    int64 createdAt = 4;
+}
+
+message AddPermissionReq{
+    Group group = 1;
+    repeated string permissions = 2;
+}
+
+message AddPermissionRes{
+    string response = 1;
+}
+
+message CheckPermissionReq{
+    string account = 1;
+    string method = 2;
+    string path = 3;
+
+}
+
+message CheckPermissionRes{
+    string operator = 1;
+    string modifier = 2;
+}
+
+message DeleteTokenReq{
+    repeated string accounts = 1;
+}
+
+message DeleteTokenRes{
+    string response = 1;
+}
+
+message DeletePermissionReq{
+    string group = 1;
+}
+
+message DeletePermissionRes{
+    string response = 1;
+}
+
+service AuthService {
+    rpc Login(LoginReq) returns (LoginRes) {};
+    rpc Logout(LogoutReq) returns (LogoutRes) {};
+    rpc CheckToken(CheckTokenReq) returns (CheckTokenRes) {};
+    rpc GetPermission(GetPermissionReq) returns (GetPermissionRes) {};
+    rpc AddPermission(AddPermissionReq) returns (AddPermissionRes) {};
+    rpc CheckPermission(CheckPermissionReq) returns(CheckPermissionRes){};
+    rpc DeleteToken(DeleteTokenReq) returns(DeleteTokenRes) {};
+    rpc DeletePermission(DeletePermissionReq) returns(DeletePermissionRes) {};
+} 

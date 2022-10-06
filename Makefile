@@ -30,8 +30,5 @@ proto2:
 	@for file in `ls ./proto/`; do \
 		protoc --go_out=. --go-grpc_out=. --go-grpc_opt=require_unimplemented_servers=false  --proto_path=./proto ./proto/$${file}/*.proto; \
 	done ;
-# protoc --go_out=. --go-grpc_out=. --go-grpc_opt=require_unimplemented_servers=false  --proto_path=./models ./models/member/*.proto
-# protoc --go_out=. --go-grpc_out=. --go-grpc_opt=require_unimplemented_servers=false  --proto_path=./models ./models/test/*.proto
-# protoc --go_out=. --go-grpc_out=. --go-grpc_opt=require_unimplemented_servers=false  --proto_path=./models ./models/general/*.proto
 	cp -r github.com/paper-trade-chatbot/be-proto/* ./
 	rm -r github.com
