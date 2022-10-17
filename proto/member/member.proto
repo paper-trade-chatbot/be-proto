@@ -41,11 +41,12 @@ message Member {
     string lineID = 3;
     string countryCode = 4;
     string phone = 5;
-    RoleCodeType role_code = 6;
-    StatusType status = 7;
-    VerifyStatus verifyStatus = 8;
-    int64 createdAtUnix = 9;
-    int64 loginAtUnix = 10;
+    RoleCodeType roleCode = 6;
+    int64 groupID = 7;
+    StatusType status = 8;
+    VerifyStatus verifyStatus = 9;
+    int64 createdAtUnix = 10;
+    int64 loginAtUnix = 11;
 }
 
 message CreateMemberReq {
@@ -56,7 +57,8 @@ message CreateMemberReq {
     RoleCodeType role_code = 5;
     StatusType status = 6;
     VerifyStatus verifyStatus = 7;
-    int64 createdAtUnix = 8;
+    int64 groupID = 8;
+    int64 createdAtUnix = 9;
 }
 
 message CreateMemberRes {

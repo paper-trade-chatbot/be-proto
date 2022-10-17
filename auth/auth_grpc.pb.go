@@ -25,11 +25,8 @@ type AuthServiceClient interface {
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error)
 	Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutRes, error)
 	CheckToken(ctx context.Context, in *CheckTokenReq, opts ...grpc.CallOption) (*CheckTokenRes, error)
-	GetPermission(ctx context.Context, in *GetPermissionReq, opts ...grpc.CallOption) (*GetPermissionRes, error)
-	AddPermission(ctx context.Context, in *AddPermissionReq, opts ...grpc.CallOption) (*AddPermissionRes, error)
 	CheckPermission(ctx context.Context, in *CheckPermissionReq, opts ...grpc.CallOption) (*CheckPermissionRes, error)
 	DeleteToken(ctx context.Context, in *DeleteTokenReq, opts ...grpc.CallOption) (*DeleteTokenRes, error)
-	DeletePermission(ctx context.Context, in *DeletePermissionReq, opts ...grpc.CallOption) (*DeletePermissionRes, error)
 }
 
 type authServiceClient struct {
@@ -42,7 +39,7 @@ func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 
 func (c *authServiceClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginRes, error) {
 	out := new(LoginRes)
-	err := c.cc.Invoke(ctx, "/AuthService/Login", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/auth.AuthService/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +48,7 @@ func (c *authServiceClient) Login(ctx context.Context, in *LoginReq, opts ...grp
 
 func (c *authServiceClient) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutRes, error) {
 	out := new(LogoutRes)
-	err := c.cc.Invoke(ctx, "/AuthService/Logout", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/auth.AuthService/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -60,25 +57,7 @@ func (c *authServiceClient) Logout(ctx context.Context, in *LogoutReq, opts ...g
 
 func (c *authServiceClient) CheckToken(ctx context.Context, in *CheckTokenReq, opts ...grpc.CallOption) (*CheckTokenRes, error) {
 	out := new(CheckTokenRes)
-	err := c.cc.Invoke(ctx, "/AuthService/CheckToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) GetPermission(ctx context.Context, in *GetPermissionReq, opts ...grpc.CallOption) (*GetPermissionRes, error) {
-	out := new(GetPermissionRes)
-	err := c.cc.Invoke(ctx, "/AuthService/GetPermission", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) AddPermission(ctx context.Context, in *AddPermissionReq, opts ...grpc.CallOption) (*AddPermissionRes, error) {
-	out := new(AddPermissionRes)
-	err := c.cc.Invoke(ctx, "/AuthService/AddPermission", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/auth.AuthService/CheckToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +66,7 @@ func (c *authServiceClient) AddPermission(ctx context.Context, in *AddPermission
 
 func (c *authServiceClient) CheckPermission(ctx context.Context, in *CheckPermissionReq, opts ...grpc.CallOption) (*CheckPermissionRes, error) {
 	out := new(CheckPermissionRes)
-	err := c.cc.Invoke(ctx, "/AuthService/CheckPermission", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/auth.AuthService/CheckPermission", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,16 +75,7 @@ func (c *authServiceClient) CheckPermission(ctx context.Context, in *CheckPermis
 
 func (c *authServiceClient) DeleteToken(ctx context.Context, in *DeleteTokenReq, opts ...grpc.CallOption) (*DeleteTokenRes, error) {
 	out := new(DeleteTokenRes)
-	err := c.cc.Invoke(ctx, "/AuthService/DeleteToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authServiceClient) DeletePermission(ctx context.Context, in *DeletePermissionReq, opts ...grpc.CallOption) (*DeletePermissionRes, error) {
-	out := new(DeletePermissionRes)
-	err := c.cc.Invoke(ctx, "/AuthService/DeletePermission", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/auth.AuthService/DeleteToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -119,11 +89,8 @@ type AuthServiceServer interface {
 	Login(context.Context, *LoginReq) (*LoginRes, error)
 	Logout(context.Context, *LogoutReq) (*LogoutRes, error)
 	CheckToken(context.Context, *CheckTokenReq) (*CheckTokenRes, error)
-	GetPermission(context.Context, *GetPermissionReq) (*GetPermissionRes, error)
-	AddPermission(context.Context, *AddPermissionReq) (*AddPermissionRes, error)
 	CheckPermission(context.Context, *CheckPermissionReq) (*CheckPermissionRes, error)
 	DeleteToken(context.Context, *DeleteTokenReq) (*DeleteTokenRes, error)
-	DeletePermission(context.Context, *DeletePermissionReq) (*DeletePermissionRes, error)
 }
 
 // UnimplementedAuthServiceServer should be embedded to have forward compatible implementations.
@@ -139,20 +106,11 @@ func (UnimplementedAuthServiceServer) Logout(context.Context, *LogoutReq) (*Logo
 func (UnimplementedAuthServiceServer) CheckToken(context.Context, *CheckTokenReq) (*CheckTokenRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckToken not implemented")
 }
-func (UnimplementedAuthServiceServer) GetPermission(context.Context, *GetPermissionReq) (*GetPermissionRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPermission not implemented")
-}
-func (UnimplementedAuthServiceServer) AddPermission(context.Context, *AddPermissionReq) (*AddPermissionRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddPermission not implemented")
-}
 func (UnimplementedAuthServiceServer) CheckPermission(context.Context, *CheckPermissionReq) (*CheckPermissionRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckPermission not implemented")
 }
 func (UnimplementedAuthServiceServer) DeleteToken(context.Context, *DeleteTokenReq) (*DeleteTokenRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteToken not implemented")
-}
-func (UnimplementedAuthServiceServer) DeletePermission(context.Context, *DeletePermissionReq) (*DeletePermissionRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePermission not implemented")
 }
 
 // UnsafeAuthServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -176,7 +134,7 @@ func _AuthService_Login_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/AuthService/Login",
+		FullMethod: "/auth.AuthService/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).Login(ctx, req.(*LoginReq))
@@ -194,7 +152,7 @@ func _AuthService_Logout_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/AuthService/Logout",
+		FullMethod: "/auth.AuthService/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).Logout(ctx, req.(*LogoutReq))
@@ -212,46 +170,10 @@ func _AuthService_CheckToken_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/AuthService/CheckToken",
+		FullMethod: "/auth.AuthService/CheckToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).CheckToken(ctx, req.(*CheckTokenReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_GetPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPermissionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).GetPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/AuthService/GetPermission",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).GetPermission(ctx, req.(*GetPermissionReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_AddPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddPermissionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).AddPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/AuthService/AddPermission",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).AddPermission(ctx, req.(*AddPermissionReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -266,7 +188,7 @@ func _AuthService_CheckPermission_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/AuthService/CheckPermission",
+		FullMethod: "/auth.AuthService/CheckPermission",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).CheckPermission(ctx, req.(*CheckPermissionReq))
@@ -284,28 +206,10 @@ func _AuthService_DeleteToken_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/AuthService/DeleteToken",
+		FullMethod: "/auth.AuthService/DeleteToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).DeleteToken(ctx, req.(*DeleteTokenReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthService_DeletePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletePermissionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).DeletePermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/AuthService/DeletePermission",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).DeletePermission(ctx, req.(*DeletePermissionReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -314,7 +218,7 @@ func _AuthService_DeletePermission_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AuthService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "AuthService",
+	ServiceName: "auth.AuthService",
 	HandlerType: (*AuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -330,24 +234,12 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AuthService_CheckToken_Handler,
 		},
 		{
-			MethodName: "GetPermission",
-			Handler:    _AuthService_GetPermission_Handler,
-		},
-		{
-			MethodName: "AddPermission",
-			Handler:    _AuthService_AddPermission_Handler,
-		},
-		{
 			MethodName: "CheckPermission",
 			Handler:    _AuthService_CheckPermission_Handler,
 		},
 		{
 			MethodName: "DeleteToken",
 			Handler:    _AuthService_DeleteToken_Handler,
-		},
-		{
-			MethodName: "DeletePermission",
-			Handler:    _AuthService_DeletePermission_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

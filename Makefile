@@ -17,16 +17,9 @@ ifeq (${OS}, linux)
 	SED_INPLACE = sed -i
 endif
 
-.PHONY: proto proto2
+.PHONY: proto 
 
 proto:
-	@for file in `ls proto/models/`; do \
-		protoc --go_out=. --go-grpc_out=. --go-grpc_opt=require_unimplemented_servers=false  --proto_path=./models ./models/$${file}/*.proto; \
-	done ;
-	find ./models/* -name '*.pb.go' -exec ${SED_INPLACE} s/,omitempty//g '{}' \; ;
-	find ./models -name '*.orig' -delete ;
-
-proto2:
 	@for file in `ls ./proto/`; do \
 		protoc --go_out=. --go-grpc_out=. --go-grpc_opt=require_unimplemented_servers=false  --proto_path=./proto ./proto/$${file}/*.proto; \
 	done ;
