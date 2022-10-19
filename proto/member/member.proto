@@ -4,35 +4,35 @@ package member;
 import "general/general.proto";
 
 enum RoleCodeType {
-    ROLECODE_NONE = 0;
-    MEMBER = 1;
-    AGENT = 2;
-    COMPANY = 3;
-    ADMIN = 4;
-    SUBACCOUNT = 5;
+    RoleCodeType_None = 0;
+    RoleCodeType_Member = 1;
+    RoleCodeType_Agent = 2;
+    RoleCodeType_Company = 3;
+    RoleCodeType_Admin = 4;
+    RoleCodeType_Subaccount = 5;
 }
 
 enum StatusType {
-    STATUS_NONE = 0;
-    ENABLED = 1;
-    SUPPRESSED = 2;
-    FREEZED = 3;
-    DISABLED = 4;
-    DISCARDED = 5;
-    DERIVED = 6;
+    StatusType_None = 0;
+    StatusType_Enabled = 1;
+    StatusType_Suppressed = 2;
+    StatusType_Freezed = 3;
+    StatusType_Disabled = 4;
+    StatusType_Discard = 5;
+    StatusType_Derived = 6;
 }
 
 enum VerifyStatus {
-    VERIFY_NONE = 0;
-    VERIFY_UNVERIFIED = 1;
-    VERIFY_PENDING = 2;
-    VERIFY_VERIFIED = 3;
-    VERIFY_FAILED = 4;
+    VerifyStatus_None = 0;
+    VerifyStatus_Unverified = 1;
+    VerifyStatus_Pending = 2;
+    VerifyStatus_Verified = 3;
+    VerifyStatus_Failed = 4;
 }
 
 enum VerifyType {
-    VerifyTypePhone = 0; 
-    VerifyTypeMail = 1;
+    VerifyType_Phone = 0; 
+    VerifyType_Mail = 1;
 }
 
 message Member {

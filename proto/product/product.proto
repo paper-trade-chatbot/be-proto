@@ -1,0 +1,173 @@
+syntax = "proto3";
+option go_package = "github.com/paper-trade-chatbot/be-proto/product";
+package product;
+import "general/general.proto";
+
+
+enum ProductType {
+    ProductType_None = 0;
+    ProductType_Stock = 1;
+    ProductType_Crypto = 2;
+    ProductType_Forex = 3;
+    ProductType_Futures = 4;
+}
+
+enum Status {
+    Status_None = 0;
+    Status_Enabled = 1;
+    Status_Disabled = 2;
+}
+
+enum Display {
+    Display_None = 0;
+    Display_Enabled = 1;
+    Display_Disabled = 2;
+}
+
+message ExchangeDay {
+    int32 startDay = 1;
+    int32 endDay = 2;
+}
+
+message ExceptionTimeFormat {
+    int64 start = 1;
+    int64 end = 2;
+}
+
+message ExceptionTime {
+    repeated ExceptionTimeFormat trade = 1;
+    repeated ExceptionTimeFormat stopTrade = 2;
+}
+
+message Exchange {
+    string code = 1;
+    ProductType productType = 2;
+    string name = 3;
+    Status status = 4;
+    Display display = 5;
+    string countryCode = 6;
+    double timezoneOffset = 7;
+    optional int64 openTime = 8;
+    optional int64 closeTime = 9;
+    bool daylightSaving = 10;
+    string location = 11;
+    ExchangeDay exchangeDay = 12;
+    ExceptionTime exceptionTime = 13;
+    int64 createdAt = 14;
+    int64 updatedAt = 15;
+}
+
+message GetExchangeReq {
+    string code = 1;
+    optional Status status = 2;
+    optional Display display = 3;
+}
+
+message GetExchangeRes {
+    Exchange exchange = 1;
+}
+
+message GetExchangesReq {
+    general.Pagination pagination = 1;
+}
+
+message GetExchangesRes {
+    repeated Exchange exchange = 1;
+    general.PaginationInfo paginationInfo = 2;
+}
+
+message Product {
+    int64 id = 1;
+    ProductType type = 2;
+    string exchangeCode = 3;
+    string code = 4;
+    string name = 5;
+    Status status = 6;
+    Display display = 7;
+    string CurrencyCode = 8;
+    double tickUnit = 9;
+    optional double minimumOrder = 10;
+    optional string iconID = 11;
+    int64 createdAt = 12;
+    int64 updatedAt = 13;
+}
+
+message CreateProductReq {
+    ProductType type = 1;
+    string exchangeCode = 2;
+    string code = 3;
+    string name = 4;
+    Status status = 5;
+    Display display = 6;
+    string CurrencyCode = 7;
+    double tickUnit = 8;
+    optional double minimumOrder = 9;
+    optional string iconID = 10;
+}
+
+message CreateProductRes {
+    int64 id = 1;
+}
+
+message ExchangeCodeProductCode {
+    string exchangeCode = 1;
+    string productCode = 2;
+}
+
+message GetProductReq {
+    oneof product {
+        int32 id = 1;
+        ExchangeCodeProductCode code = 2;
+    }
+}
+
+message GetProductRes {
+    Product product = 1;
+}
+
+message GetProductsReq {
+    optional ProductType productType = 1;
+    repeated string exchangeCode = 2;
+    optional Status status = 3;
+    optional Display display = 4;
+    general.Pagination pagination = 5;
+}
+
+message GetProductsRes {
+    repeated Product product = 1;
+    general.PaginationInfo paginationInfo = 2;
+}
+
+message ModifyProductReq {
+    oneof product {
+        int32 id = 1;
+        ExchangeCodeProductCode code = 2;
+    }
+    optional Status status = 3;
+    optional Display verifyStatus = 4;
+}
+
+message ModifyProductRes {
+    int32 id = 1;
+}
+
+message DeleteProductReq {
+    oneof product {
+        int32 id = 1;
+        ExchangeCodeProductCode code = 2;
+    }
+}
+
+message DeleteProductRes {
+    bool success = 1;
+}
+
+service ProductService {
+    rpc GetExchange(GetExchangeReq) returns (GetExchangeRes);
+    rpc GetExchanges(GetExchangesReq) returns (GetExchangesRes);
+    rpc CreateProduct(CreateProductReq) returns (CreateProductRes);
+    rpc GetProduct(GetProductReq) returns (GetProductRes);
+    rpc GetProducts(GetProductsReq) returns (GetProductsRes);
+    rpc ModifyProduct(ModifyProductReq) returns (ModifyProductRes);
+    rpc DeleteProduct(DeleteProductReq) returns (DeleteProductRes);
+}
