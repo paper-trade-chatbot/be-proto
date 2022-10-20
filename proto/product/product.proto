@@ -105,9 +105,7 @@ message CreateProductReq {
     optional string iconID = 10;
 }
 
-message CreateProductRes {
-    int64 id = 1;
-}
+message CreateProductRes {}
 
 message ExchangeCodeProductCode {
     string exchangeCode = 1;
@@ -126,7 +124,7 @@ message GetProductRes {
 }
 
 message GetProductsReq {
-    optional ProductType productType = 1;
+    repeated ProductType productType = 1;
     repeated string exchangeCode = 2;
     optional Status status = 3;
     optional Display display = 4;
@@ -147,9 +145,7 @@ message ModifyProductReq {
     optional Display verifyStatus = 4;
 }
 
-message ModifyProductRes {
-    int32 id = 1;
-}
+message ModifyProductRes {}
 
 message DeleteProductReq {
     oneof product {
@@ -158,9 +154,7 @@ message DeleteProductReq {
     }
 }
 
-message DeleteProductRes {
-    bool success = 1;
-}
+message DeleteProductRes {}
 
 service ProductService {
     rpc GetExchange(GetExchangeReq) returns (GetExchangeRes);

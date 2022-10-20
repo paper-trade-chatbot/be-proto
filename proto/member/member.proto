@@ -61,9 +61,7 @@ message CreateMemberReq {
     int64 createdAtUnix = 9;
 }
 
-message CreateMemberRes {
-    int64 id = 1;
-}
+message CreateMemberRes {}
 
 message GetMemberReq {
     oneof member {
@@ -98,9 +96,7 @@ message ModifyMemberReq {
     optional VerifyStatus verifyStatus = 6;
 }
 
-message ModifyMemberRes {
-    int32 id = 1;
-}
+message ModifyMemberRes {}
 
 message ResetPasswordReq {
     string newPassword = 1;
@@ -123,9 +119,7 @@ message DeleteMemberReq {
     }
 }
 
-message DeleteMemberRes {
-    bool success = 1;
-}
+message DeleteMemberRes {}
 
 service MemberService {
     rpc CreateMember(CreateMemberReq) returns (CreateMemberRes);
