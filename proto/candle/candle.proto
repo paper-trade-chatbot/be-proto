@@ -1,0 +1,97 @@
+syntax = "proto3";
+option go_package = "github.com/paper-trade-chatbot/be-proto/candle";
+package candle;
+import "general/general.proto";
+
+enum IntervalType {
+    IntervalType_None = 0;
+    IntervalType_1MI = 21;
+    IntervalType_2MI = 22;
+    IntervalType_5MI = 25;
+    IntervalType_10MI = 210;
+    IntervalType_15MI = 215;
+    IntervalType_30MI = 230;
+    IntervalType_1HR = 31;
+    IntervalType_1DY = 41;
+    IntervalType_5DY = 45;
+    IntervalType_1WK = 51;
+    IntervalType_1MO = 61;
+    IntervalType_1YR = 71;
+}
+
+message CandleStick {
+    int64 start = 1;
+    string open = 2;
+    string close = 3;
+    string high = 4;
+    string low = 5;
+    string volume = 6;
+}
+
+message CandleChart {
+    int64 productID = 1;
+    IntervalType intervalType = 2;
+    repeated CandleStick candleSticks = 3;
+}
+
+//CreateCandles
+
+message CreateCandlesReq {
+    repeated CandleChart candleCharts = 1;
+}
+
+message CreateCandlesResElement {
+    int64 productID = 1;
+    IntervalType intervalType = 2;
+    int32 success = 3;
+}
+
+message CreateCandlesRes {
+    repeated CreateCandlesResElement elements = 1;
+    int32 totalSuccess = 2;
+}
+
+//GetCandles
+
+enum GetCandlesReqOrderBy {
+    GetCandlesReqOrderBy_None = 0;
+    GetCandlesReqOrderBy_Start = 1;
+}
+
+enum GetCandlesReqOrderDirection {
+    GetCandlesReqOrderDirection_None = 0;
+    GetCandlesReqOrderDirection_ASC = 1;
+    GetCandlesReqOrderDirection_DESC = -1;
+}
+
+message GetCandlesReqElement {
+    int64 productID = 1;
+    IntervalType intervalType = 2;
+    int64 startTime = 3;
+    int64 endTime = 4;
+    GetCandlesReqOrderBy orderBy = 5;
+    GetCandlesReqOrderDirection orderDirection = 6;
+    general.Pagination pagination = 7;
+}
+
+message GetCandlesReq {
+    repeated GetCandlesReqElement elements = 1;
+}
+
+message GetCandlesResElement {
+    int64 productID = 1;
+    IntervalType intervalType = 2;
+    repeated CandleStick candleSticks = 3;
+    general.PaginationInfo paginationInfo = 4;
+}
+
+message GetCandlesRes {
+    map<int64, GetCandlesResElement> elements = 1;
+}
+
+//CandleService
+
+service CandleService {
+    rpc CreateCandles (CreateCandlesReq) returns (CreateCandlesRes);
+    rpc GetCandles(GetCandlesReq) returns (GetCandlesRes);
+} 

@@ -40,21 +40,22 @@ message ExceptionTime {
 }
 
 message Exchange {
-    string code = 1;
-    ProductType productType = 2;
-    string name = 3;
-    Status status = 4;
-    Display display = 5;
-    string countryCode = 6;
-    double timezoneOffset = 7;
-    optional int64 openTime = 8;
-    optional int64 closeTime = 9;
-    bool daylightSaving = 10;
-    string location = 11;
-    ExchangeDay exchangeDay = 12;
-    ExceptionTime exceptionTime = 13;
-    int64 createdAt = 14;
-    int64 updatedAt = 15;
+    int64 id = 1;
+    string code = 2;
+    ProductType productType = 3;
+    string name = 4;
+    Status status = 5;
+    Display display = 6;
+    string countryCode = 7;
+    double timezoneOffset = 8;
+    optional int64 openTime = 9;
+    optional int64 closeTime = 10;
+    bool daylightSaving = 11;
+    string location = 12;
+    ExchangeDay exchangeDay = 13;
+    ExceptionTime exceptionTime = 14;
+    int64 createdAt = 15;
+    int64 updatedAt = 16;
 }
 
 message GetExchangeReq {
@@ -125,10 +126,11 @@ message GetProductRes {
 
 message GetProductsReq {
     repeated ProductType productType = 1;
-    repeated string exchangeCode = 2;
-    optional Status status = 3;
-    optional Display display = 4;
-    general.Pagination pagination = 5;
+    repeated int64 id = 2;
+    repeated string exchangeCode = 3;
+    optional Status status = 4;
+    optional Display display = 5;
+    general.Pagination pagination = 6;
 }
 
 message GetProductsRes {
