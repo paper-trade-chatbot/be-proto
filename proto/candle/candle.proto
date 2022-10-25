@@ -58,8 +58,8 @@ enum GetCandlesReqOrderDirection {
     GetCandlesReqOrderDirection_DESC = -1;
 }
 
-message GetCandlesReqElement {
-    int64 productID = 1;
+message GetCandlesReq {
+    repeated int64 productID = 1;
     IntervalType intervalType = 2;
     int64 startTime = 3;
     int64 endTime = 4;
@@ -68,19 +68,15 @@ message GetCandlesReqElement {
     general.Pagination pagination = 7;
 }
 
-message GetCandlesReq {
-    repeated GetCandlesReqElement elements = 1;
-}
-
 message GetCandlesResElement {
-    int64 productID = 1;
+    repeated int64 productID = 1;
     IntervalType intervalType = 2;
-    repeated CandleStick candleSticks = 3;
-    general.PaginationInfo paginationInfo = 4;
+    CandleStick candleSticks = 3;
 }
 
 message GetCandlesRes {
-    map<int64, GetCandlesResElement> elements = 1;
+    repeated GetCandlesResElement elements = 1;
+    general.PaginationInfo paginationInfo = 2;
 }
 
 //CandleService
