@@ -69,13 +69,13 @@ message GetCandlesReq {
 }
 
 message GetCandlesResElement {
-    repeated int64 productID = 1;
+    int64 productID = 1;
     IntervalType intervalType = 2;
     CandleStick candleSticks = 3;
 }
 
 message GetCandlesRes {
-    repeated GetCandlesResElement elements = 1;
+    repeated GetCandlesResElement candles = 1;
     general.PaginationInfo paginationInfo = 2;
 }
 
