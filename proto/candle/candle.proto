@@ -40,15 +40,8 @@ message CreateCandlesReq {
     repeated CandleChart candleCharts = 1;
 }
 
-message CreateCandlesResElement {
-    int64 productID = 1;
-    IntervalType intervalType = 2;
-    int32 success = 3;
-}
-
 message CreateCandlesRes {
-    repeated CreateCandlesResElement elements = 1;
-    int32 totalSuccess = 2;
+    int32 totalSuccess = 1;
 }
 
 //GetCandles
@@ -56,6 +49,7 @@ message CreateCandlesRes {
 enum GetCandlesReqOrderBy {
     GetCandlesReqOrderBy_None = 0;
     GetCandlesReqOrderBy_Start = 1;
+    GetCandlesReqOrderBy_ProductID = 2;
 }
 
 enum GetCandlesReqOrderDirection {
@@ -69,8 +63,8 @@ message GetCandlesReqElement {
     IntervalType intervalType = 2;
     int64 startTime = 3;
     int64 endTime = 4;
-    GetCandlesReqOrderBy orderBy = 5;
-    GetCandlesReqOrderDirection orderDirection = 6;
+    repeated GetCandlesReqOrderBy orderBy = 5;
+    repeated GetCandlesReqOrderDirection orderDirection = 6;
     general.Pagination pagination = 7;
 }
 
