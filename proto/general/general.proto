@@ -11,6 +11,7 @@ message PaginationInfo {
     int32 currentPage = 1;
     int32 nextPage = 2 ;
     int32 previousPage = 3;
-    int32 totalPages = 4;
-    int32 totalRows = 5;
+    int32 pageSize = 4;
+    int32 totalPages = 5;
+    int32 totalRows = 6;
 }
