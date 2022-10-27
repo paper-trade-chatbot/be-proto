@@ -1,0 +1,62 @@
+syntax = "proto3";
+option go_package = "github.com/paper-trade-chatbot/be-proto/quote";
+package quote;
+import "product/product.proto";
+
+message AddProductQuoteSourcesReqItem {
+    int64 productID = 1;
+    product.ProductType type = 2;
+    string sourceCode = 3;
+    string quoteCode = 4;
+    string currencyCode = 5;
+    product.Status status = 6;
+}
+
+message AddProductQuoteSourcesReq {
+    repeated AddProductQuoteSourcesReqItem products = 1;
+}
+
+message AddProductQuoteSourcesRes {}
+
+message ModifyProductQuoteSourceReq {
+    int64 productID = 1;
+    product.ProductType type = 2;
+    string sourceCode = 3;
+    string quoteCode = 4;
+    string currencyCode = 5;
+    product.Status status = 6;
+}
+
+message ModifyProductQuoteSourceRes {}
+
+message GetQuotesReq {
+    repeated int64 productIDs = 1;
+}
+
+message GetQuotesResItem {
+    int64 productID = 1;
+    product.ProductType type = 2;
+    string sourceCode = 3;
+    string quoteCode = 4;
+    string currencyCode = 5;
+    map<string,string> quotes = 6;
+}
+
+message GetQuotesRes {
+    repeated GetQuotesResItem quotes = 1;
+}
+
+message DeleteQuotesReq {
+    repeated int64 productIDs = 1;
+    string deleteFrom = 2;  // HHMMSS, not include itself
+    string deleteTo = 3;    // HHMMSS, include ifself
+}
+
+message DeleteQuotesRes {}
+
+service QuoteService {
+    rpc AddProductQuoteSources(AddProductQuoteSourcesReq) returns (AddProductQuoteSourcesRes);
+    rpc ModifyProductQuoteSource(ModifyProductQuoteSourceReq) returns (ModifyProductQuoteSourceRes);
+    rpc GetQuotes(GetQuotesReq) returns (GetQuotesRes);
+    rpc DeleteQuotes(DeleteQuotesReq) returns (DeleteQuotesRes);
+} 
