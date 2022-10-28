@@ -30,16 +30,21 @@ message ModifyProductQuoteSourceReq {
 message ModifyProductQuoteSourceRes {}
 
 message GetQuotesReq {
+    enum GetFlags {
+        GetFlag_None = 0x0;
+        GetFlag_Quote = 0x1;
+        GetFlag_Ask = 0x2;
+        GetFlag_Bid = 0x4;
+    }
     repeated int64 productIDs = 1;
+    GetFlags flag = 2;
+    optional string getFrom = 3; //HHMMSS
+    optional string getTo = 4;   //HHMMSS
 }
 
 message GetQuotesResItem {
     int64 productID = 1;
-    product.ProductType type = 2;
-    string sourceCode = 3;
-    string quoteCode = 4;
-    string currencyCode = 5;
-    map<string,string> quotes = 6;
+    map<string,string> quotes = 2;
 }
 
 message GetQuotesRes {
