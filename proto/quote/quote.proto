@@ -35,6 +35,7 @@ message GetQuotesReq {
         GetFlag_Quote = 0x1;
         GetFlag_Ask = 0x2;
         GetFlag_Bid = 0x4;
+        GetFlag_Latest = 0x8;
     }
     repeated int64 productIDs = 1;
     GetFlags flag = 2;
