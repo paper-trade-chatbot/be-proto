@@ -71,7 +71,7 @@ message GetCandlesReq {
 message GetCandlesResElement {
     int64 productID = 1;
     IntervalType intervalType = 2;
-    CandleStick candleSticks = 3;
+    CandleStick candleStick = 3;
 }
 
 message GetCandlesRes {
