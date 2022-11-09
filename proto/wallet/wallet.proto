@@ -1,0 +1,156 @@
+syntax = "proto3";
+option go_package = "github.com/paper-trade-chatbot/be-proto/wallet";
+package wallet;
+import "general/general.proto";
+
+enum Action {
+    Action_NONE = 0;    
+    Action_DEPOSIT = 1;     // 入金
+    Action_WITHDRAW = 2;    // 出金
+    Action_BONUS = 3;       // 贈送
+    Action_INTEREST = 4;    // 利息
+    Action_OPEN = 5;        // 開倉
+    Action_CLOSE = 6;       // 平倉
+    Action_MANUALLY = 7;    // 人工更改
+}
+
+enum Status {
+    Status_NONE = 0;    
+    Status_PENDING = 1;     // 待辦
+    Status_SUCCESS = 2;     // 成功
+    Status_FAILED = 3;      // 失敗
+    Status_ROLLBACK = 4;    // 回滾
+}
+
+message CreateWalletReq {
+    uint64 memberID = 1;
+    string currency = 2;
+}
+
+message CreateWalletRes {
+    uint64 walletID = 1;
+}
+
+message GetWalletsReq {
+    oneof wallet {
+        uint64 id = 1;
+        uint64 memberID = 2;
+    }
+}
+
+message Wallet{
+    uint64 id = 1;
+    string amount = 2;
+    string currency = 3;
+}
+
+message GetWalletsRes {
+    repeated Wallet wallets = 1;
+}
+
+message DeleteWalletReq {
+    uint64 id = 1;
+}
+
+message DeleteWalletRes {}
+
+message TransactionReq {
+    uint64 walletID = 1;
+    Action action = 2;
+    string amount = 3;
+    string currency = 4;
+    uint64 committerID = 5;
+    string memo = 6;
+}
+
+message TransactionRes {
+    uint64 id = 1;
+    uint32 sourceAmount = 2;
+    string destinationAmount = 3;
+    string currency = 4;
+    Status status = 5;
+    int64 createdAt = 6;
+    int64 updatedAt = 7;
+}
+
+message RollbackTransactionReq {
+    uint64 id = 1;
+}
+
+message RollbackTransactionRes {}
+
+message GetTransactionRecordReq {
+    uint64 id = 1;
+}
+
+message TransactionRecord {
+    uint64 id = 1;
+    uint64 memberID = 2;
+    uint64 walletID = 3;
+    Action action = 4;
+    string amount = 5;
+    string sourceAmount = 6;
+    string destinationAmount = 7;
+    string currency = 8;
+    uint64 committerID = 9;
+    Status status = 10;
+    string memo = 11;
+    int64 createdAt = 12;
+    int64 updatedAt = 13;
+    string rollbackSourceAmount = 14;
+    string rollbackDestinationAmount = 15;
+    uint64 rollbackerID = 16;
+    int64 rollbackAt = 17;
+}
+
+message GetTransactionRecordRes {
+    TransactionRecord record = 1;
+}
+
+message GetTransactionRecordsReq {
+    optional uint64 memberID = 1;
+    optional uint64 committerID = 2;
+    optional uint64 rollbackerID = 3;
+    repeated string currency = 4;
+    repeated Status status = 5;
+    repeated string memo = 6;
+    optional int64 createdFrom = 7;
+    optional int64 createdTo = 8;
+    optional int64 rollbackFrom = 9;
+    optional int64 rollbackTo = 10;
+    enum OrderBy {
+        OrderBy_None = 0;
+        OrderBy_MemberID = 1;
+        OrderBy_CommitterID = 2;
+        OrderBy_Currency = 3;
+        OrderBy_CreatedAt = 4;
+    }
+    enum OrderDirection {
+        OrderDirection_None = 0;
+        OrderDirection_ASC = 1;
+        OrderDirection_DESC = -1;
+    }
+    message Order {
+        OrderBy orderBy = 1;
+        OrderDirection orderDirection = 2;
+    }
+    repeated Order order = 11;
+    general.Pagination pagination = 12;
+}
+
+message GetTransactionRecordsRes {
+    repeated TransactionRecord records = 1;
+    general.PaginationInfo paginationInfo = 2;
+}
+
+service WalletService {
+    rpc CreateWallet(CreateWalletReq) returns (CreateWalletRes) {};
+    rpc GetWallets(GetWalletsReq) returns (GetWalletsRes) {};
+    rpc DeleteWallet(DeleteWalletReq) returns (DeleteWalletRes) {};
+
+    rpc Transaction(TransactionReq) returns (TransactionRes) {};
+    rpc RollbackTransaction(RollbackTransactionReq) returns (RollbackTransactionRes) {};
+
+    rpc GetTransactionRecord(GetTransactionRecordReq) returns (GetTransactionRecordRes) {};
+    rpc GetTransactionRecords(GetTransactionRecordsReq) returns (GetTransactionRecordsRes) {};
+}
