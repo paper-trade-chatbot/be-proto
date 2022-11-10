@@ -95,18 +95,17 @@ message TransactionRecord {
     uint64 walletID = 3;
     Action action = 4;
     string amount = 5;
-    string beforeAmount = 6;
-    string afterAmount = 7;
+    optional string beforeAmount = 6;
+    optional string afterAmount = 7;
     string currency = 8;
     uint64 committerID = 9;
     Status status = 10;
     string remark = 11;
     int64 createdAt = 12;
     int64 updatedAt = 13;
-    string rollbackBeforeAmount = 14;
-    string rollbackAfterAmount = 15;
-    uint64 rollbackerID = 16;
-    int64 rollbackAt = 17;
+    optional string rollbackBeforeAmount = 14;
+    optional string rollbackAfterAmount = 15;
+    optional uint64 rollbackerID = 16;
 }
 
 message GetTransactionRecordRes {
