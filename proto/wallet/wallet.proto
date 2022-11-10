@@ -69,8 +69,8 @@ message TransactionReq {
 
 message TransactionRes {
     uint64 id = 1;
-    uint32 sourceAmount = 2;
-    string destinationAmount = 3;
+    string beforeAmount = 2;
+    string afterAmount = 3;
     string currency = 4;
     Status status = 5;
     int64 createdAt = 6;
@@ -79,6 +79,8 @@ message TransactionRes {
 
 message RollbackTransactionReq {
     uint64 id = 1;
+    uint64 rollbackerID = 2;
+    optional string remark = 3;
 }
 
 message RollbackTransactionRes {}
@@ -93,16 +95,16 @@ message TransactionRecord {
     uint64 walletID = 3;
     Action action = 4;
     string amount = 5;
-    string sourceAmount = 6;
-    string destinationAmount = 7;
+    string beforeAmount = 6;
+    string afterAmount = 7;
     string currency = 8;
     uint64 committerID = 9;
     Status status = 10;
     string remark = 11;
     int64 createdAt = 12;
     int64 updatedAt = 13;
-    string rollbackSourceAmount = 14;
-    string rollbackDestinationAmount = 15;
+    string rollbackBeforeAmount = 14;
+    string rollbackAfterAmount = 15;
     uint64 rollbackerID = 16;
     int64 rollbackAt = 17;
 }
