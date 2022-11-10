@@ -36,12 +36,16 @@ message GetWalletsReq {
         uint64 id = 1;
         uint64 memberID = 2;
     }
+    optional string currency = 3;
 }
 
 message Wallet{
     uint64 id = 1;
-    string amount = 2;
-    string currency = 3;
+    uint64 memberID = 2;
+    string amount = 3;
+    string currency = 4;
+    int64 createdAt = 5;
+    int64 updatedAt = 6;
 }
 
 message GetWalletsRes {
@@ -113,11 +117,9 @@ message GetTransactionRecordsReq {
     optional uint64 rollbackerID = 3;
     repeated string currency = 4;
     repeated Status status = 5;
-    repeated string memo = 6;
+    repeated Action action = 6;
     optional int64 createdFrom = 7;
     optional int64 createdTo = 8;
-    optional int64 rollbackFrom = 9;
-    optional int64 rollbackTo = 10;
     enum OrderBy {
         OrderBy_None = 0;
         OrderBy_MemberID = 1;
@@ -134,8 +136,8 @@ message GetTransactionRecordsReq {
         OrderBy orderBy = 1;
         OrderDirection orderDirection = 2;
     }
-    repeated Order order = 11;
-    general.Pagination pagination = 12;
+    repeated Order order = 9;
+    general.Pagination pagination = 10;
 }
 
 message GetTransactionRecordsRes {
