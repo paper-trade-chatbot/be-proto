@@ -64,7 +64,7 @@ message TransactionReq {
     string amount = 3;
     string currency = 4;
     uint64 committerID = 5;
-    string memo = 6;
+    string remark = 6;
 }
 
 message TransactionRes {
@@ -98,7 +98,7 @@ message TransactionRecord {
     string currency = 8;
     uint64 committerID = 9;
     Status status = 10;
-    string memo = 11;
+    string remark = 11;
     int64 createdAt = 12;
     int64 updatedAt = 13;
     string rollbackSourceAmount = 14;
