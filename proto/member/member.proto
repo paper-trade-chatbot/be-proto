@@ -3,15 +3,6 @@ option go_package = "github.com/paper-trade-chatbot/be-proto/member";
 package member;
 import "general/general.proto";
 
-enum RoleCodeType {
-    RoleCodeType_None = 0;
-    RoleCodeType_Member = 1;
-    RoleCodeType_Agent = 2;
-    RoleCodeType_Company = 3;
-    RoleCodeType_Admin = 4;
-    RoleCodeType_Subaccount = 5;
-}
-
 enum StatusType {
     StatusType_None = 0;
     StatusType_Enabled = 1;
@@ -41,10 +32,9 @@ message Member {
     string lineID = 3;
     string countryCode = 4;
     string phone = 5;
-    RoleCodeType roleCode = 6;
-    int64 groupID = 7;
-    StatusType status = 8;
-    VerifyStatus verifyStatus = 9;
+    int64 groupID = 6;
+    StatusType status = 7;
+    VerifyStatus verifyStatus = 8;
     int64 createdAtUnix = 10;
     int64 loginAtUnix = 11;
 }
@@ -54,11 +44,10 @@ message CreateMemberReq {
     string password = 2;
     string mail = 3;
     string lineID = 4;
-    RoleCodeType role_code = 5;
-    StatusType status = 6;
-    VerifyStatus verifyStatus = 7;
-    int64 groupID = 8;
-    int64 createdAtUnix = 9;
+    StatusType status = 5;
+    VerifyStatus verifyStatus = 6;
+    int64 groupID = 7;
+    int64 createdAtUnix = 8;
 }
 
 message CreateMemberRes {}
@@ -121,6 +110,37 @@ message DeleteMemberReq {
 
 message DeleteMemberRes {}
 
+message CreateMemberGroupReq {
+    string name = 1;
+}
+
+message CreateMemberGroupRes {}
+
+message GetMemberGroupsReq {
+    optional uint64 id = 1;
+    optional string name = 2;
+}
+
+message MemberGroup {
+    uint64 id = 1;
+    string name = 2;
+    string memo = 3;
+    int64 createdAt = 4;
+}
+
+message GetMemberGroupsRes {
+    repeated MemberGroup memberGroups = 1;
+}
+
+message DeleteMemberGroupReq {
+    oneof memberGroup {
+        uint64 id = 1;
+        string name = 2;
+    }
+}
+
+message DeleteMemberGroupRes {}
+
 service MemberService {
     rpc CreateMember(CreateMemberReq) returns (CreateMemberRes);
     rpc GetMember(GetMemberReq) returns (GetMemberRes);
@@ -128,4 +148,8 @@ service MemberService {
     rpc ModifyMember(ModifyMemberReq) returns (ModifyMemberRes);
     rpc ResetPassword(ResetPasswordReq) returns (ResetPasswordRes){};
     rpc DeleteMember(DeleteMemberReq) returns (DeleteMemberRes){};
+
+    rpc CreateMemberGroup(CreateMemberGroupReq) returns (CreateMemberGroupRes);
+    rpc GetMemberGroups(GetMemberGroupsReq) returns (GetMemberGroupsRes);
+    rpc DeleteMemberGroup(DeleteMemberGroupReq) returns (DeleteMemberGroupRes);
 }

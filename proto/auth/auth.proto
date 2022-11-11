@@ -31,9 +31,8 @@ message CheckTokenReq {
 
 message CheckTokenRes {
     string Account = 1;
-    member.RoleCodeType Role = 2;
-    member.StatusType Status = 3;
-    int64 GroupID = 4;
+    member.StatusType Status = 2;
+    int64 GroupID = 3;
 }
 
 message CheckPermissionReq{
