@@ -27,16 +27,17 @@ enum VerifyType {
 }
 
 message Member {
-    string account = 1;
-    string mail = 2;
-    string lineID = 3;
-    string countryCode = 4;
-    string phone = 5;
-    int64 groupID = 6;
-    StatusType status = 7;
-    VerifyStatus verifyStatus = 8;
-    int64 createdAtUnix = 10;
-    int64 loginAtUnix = 11;
+    uint64 id = 1;
+    string account = 2;
+    string mail = 3;
+    string lineID = 4;
+    string countryCode = 5;
+    string phone = 6;
+    int64 groupID = 7;
+    StatusType status = 8;
+    VerifyStatus verifyStatus = 9;
+    int64 createdAtUnix = 10;           
+    int64 loginAtUnix = 11;                 
 }
 
 message CreateMemberReq {
