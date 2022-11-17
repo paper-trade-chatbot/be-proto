@@ -1,0 +1,118 @@
+syntax = "proto3";
+option go_package = "github.com/paper-trade-chatbot/be-proto/order";
+package order;
+import "general/general.proto";
+import "product/product.proto";
+import "position/position.proto";
+
+enum TransactionType {
+    TransactionType_None = 0;
+    TransactionType_OpenPosition = 1;
+    TransactionType_ClosePosition = 2;
+}
+
+enum OrderStatus {
+    OrderStatus_None = 0;
+    OrderStatus_Pending = 1;
+    OrderStatus_Failed = 2;
+    OrderStatus_Finished = 3;
+    OrderStatus_Cancelled = 5;
+    OrderStatus_Rollbacked = 6;
+}
+
+message StartOpenPositionOrderReq {
+    uint64 memberID = 1;
+    product.ProductType type = 2;
+    string exchangeCode = 3;
+    string productCode = 4;
+    position.TradeType tradeType = 5;
+    string amount = 6;
+}
+
+message StartOpenPositionOrderRes {
+    uint64 id = 1;
+}
+
+message FinishOpenPositionOrderReq {
+    uint64 id = 1;
+    string unitPrice = 2;
+    int64 finishedAt = 3;
+}
+
+message FinishOpenPositionOrderRes {}
+
+message StartClosePositionOrderReq {
+    uint64 id = 1;
+    string amount = 2;
+}
+
+message StartClosePositionOrderRes {
+    uint64 id = 1;
+}
+
+message FinishClosePositionOrderReq {
+    uint64 id = 1;
+    string unitPrice = 2;
+    int64 finishedAt = 3;
+}
+
+message FinishClosePositionOrderRes {}
+
+message FailOrderReq {
+    uint64 id = 1;
+}
+
+message FailOrderRes {}
+
+message RollbackOrderReq {
+    uint64 id = 1;
+    uint64 rollbackerID = 2;
+}
+
+message RollbackOrderRes {}
+
+message GetOrdersReq {
+    repeated uint64 id = 1;
+    repeated uint64 memberID = 2;
+    optional TransactionType transactionType = 3;
+    optional product.ProductType type = 4;
+    optional string exchangeCode = 5;
+    optional string productCode = 6;
+    optional position.TradeType tradeType = 7;
+    optional int64 createdFrom = 8;
+    optional int64 createdTo = 9;
+    general.Pagination pagination = 10;
+}
+
+message Order {
+    uint64 id = 1;
+    uint64 memberID = 2;
+    OrderStatus orderStatus = 3;
+    TransactionType transactionType = 4;
+    product.ProductType type = 5;
+    string exchangeCode = 6;
+    string productCode = 7;
+    position.TradeType tradeType = 8;
+    string amount = 9;
+    optional string unitPrice = 10;
+    int64 createdAt = 11;
+    optional int64 finishedAt = 12;
+    optional uint64 rollbackerID = 13;
+    optional int64 rollbackedAt = 14;
+    optional string remark = 15;
+}
+
+message GetOrdersRes {
+    repeated Order orders = 1;
+    general.PaginationInfo paginationInfo = 2;
+}
+
+service OrderService {
+    rpc StartOpenPositionOrder(StartOpenPositionOrderReq) returns (StartOpenPositionOrderRes);
+    rpc FinishOpenPositionOrder(FinishOpenPositionOrderReq) returns (FinishOpenPositionOrderRes);
+    rpc StartClosePositionOrder(StartClosePositionOrderReq) returns (StartClosePositionOrderRes);
+    rpc FinishClosePositionOrder(FinishClosePositionOrderReq) returns (FinishClosePositionOrderRes);
+    rpc FailOrder(FailOrderReq) returns (FailOrderRes);
+    rpc RollbackOrder(RollbackOrderReq) returns (RollbackOrderRes);
+    rpc GetOrders(GetOrdersReq) returns (GetOrdersRes);
+}

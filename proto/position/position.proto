@@ -1,0 +1,87 @@
+syntax = "proto3";
+option go_package = "github.com/paper-trade-chatbot/be-proto/position";
+package position;
+import "general/general.proto";
+import "product/product.proto";
+
+enum TradeType {
+    TradeType_None = 0;
+    TradeType_Buy = 1;
+    TradeType_Sell = 2;
+}
+
+enum PositionStatus {
+    PositionStatus_None = 0;
+    PositionStatus_Open = 1;
+    PositionStatus_Close = 2;
+}
+
+message OpenPositionReq {
+    uint64 memberID = 1;
+    product.ProductType type = 2;
+    string exchangeCode = 3;
+    string productCode = 4;
+    TradeType tradeType = 5;
+    string amount = 6;
+    string unitPrice = 7;
+}
+
+message OpenPositionRes {
+    uint64 id = 1;
+}
+
+message ClosePositionReq {
+    uint64 id = 1;
+    string closeAmount = 2; //為正值，代表該倉要減去多少數量
+}
+
+message ClosePositionRes {
+    bool closed = 1;
+    uint64 id = 2;
+    string amountLeft = 3;
+}
+
+message GetPositionsReq {
+    repeated uint64 memberID = 1;
+    optional product.ProductType type = 2;
+    optional string exchangeCode = 3;
+    optional string productCode = 4;
+    optional TradeType tradeType = 5;
+    repeated PositionStatus status = 6;
+    general.Pagination pagination = 7;
+}
+
+message Position {
+    uint64 id = 1;
+    uint64 memberID = 2;
+    product.ProductType type = 3;
+    string exchangeCode = 4;
+    string productCode = 5;
+    TradeType tradeType = 6;
+    PositionStatus status = 7;
+    string amount = 8;
+    string unitPrice = 9;
+    int64 createdAt = 10;
+    int64 updatedAt = 11;
+}
+
+message GetPositionsRes {
+    repeated Position positions = 1;
+    general.PaginationInfo paginationInfo = 2;
+}
+
+message ModifyPositionReq {
+    uint64 id = 1;
+    optional string amount = 2;
+    optional string unitPrice = 3;
+    optional PositionStatus status = 4;
+}
+
+message ModifyPositionRes {}
+
+service PositionService {
+    rpc OpenPosition(OpenPositionReq) returns (OpenPositionRes);
+    rpc ClosePosition(ClosePositionReq) returns (ClosePositionRes);
+    rpc GetPositions(GetPositionsReq) returns (GetPositionsRes);
+    rpc ModifyPosition(ModifyPositionReq) returns (ModifyPositionRes);
+}
