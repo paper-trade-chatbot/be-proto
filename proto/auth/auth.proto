@@ -30,9 +30,10 @@ message CheckTokenReq {
 }
 
 message CheckTokenRes {
-    string Account = 1;
-    member.StatusType Status = 2;
-    int64 GroupID = 3;
+    uint64 id = 1;
+    string Account = 2;
+    member.StatusType Status = 3;
+    int64 GroupID = 4;
 }
 
 message CheckPermissionReq{
