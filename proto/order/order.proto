@@ -22,11 +22,10 @@ enum OrderStatus {
 
 message StartOpenPositionOrderReq {
     uint64 memberID = 1;
-    product.ProductType type = 2;
-    string exchangeCode = 3;
-    string productCode = 4;
-    position.TradeType tradeType = 5;
-    string amount = 6;
+    string exchangeCode = 2;
+    string productCode = 3;
+    position.TradeType tradeType = 4;
+    string amount = 5;
 }
 
 message StartOpenPositionOrderRes {
@@ -36,7 +35,8 @@ message StartOpenPositionOrderRes {
 message FinishOpenPositionOrderReq {
     uint64 id = 1;
     string unitPrice = 2;
-    int64 finishedAt = 3;
+    uint64 transactionRecordID = 3;
+    int64 finishedAt = 4;
 }
 
 message FinishOpenPositionOrderRes {}
@@ -53,7 +53,8 @@ message StartClosePositionOrderRes {
 message FinishClosePositionOrderReq {
     uint64 id = 1;
     string unitPrice = 2;
-    int64 finishedAt = 3;
+    uint64 transactionRecordID = 3;
+    int64 finishedAt = 4;
 }
 
 message FinishClosePositionOrderRes {}
@@ -74,14 +75,16 @@ message RollbackOrderRes {}
 message GetOrdersReq {
     repeated uint64 id = 1;
     repeated uint64 memberID = 2;
-    optional TransactionType transactionType = 3;
-    optional product.ProductType type = 4;
-    optional string exchangeCode = 5;
-    optional string productCode = 6;
-    optional position.TradeType tradeType = 7;
-    optional int64 createdFrom = 8;
-    optional int64 createdTo = 9;
-    general.Pagination pagination = 10;
+    repeated uint64 rollbackerID = 3;
+    optional TransactionType transactionType = 4;
+    optional product.ProductType type = 5;
+    optional string exchangeCode = 6;
+    optional string productCode = 7;
+    optional position.TradeType tradeType = 8;
+    repeated uint64 transactionRecordID = 9;
+    optional int64 createdFrom = 10;
+    optional int64 createdTo = 11;
+    general.Pagination pagination = 12;
 }
 
 message Order {
@@ -95,11 +98,12 @@ message Order {
     position.TradeType tradeType = 8;
     string amount = 9;
     optional string unitPrice = 10;
-    int64 createdAt = 11;
-    optional int64 finishedAt = 12;
-    optional uint64 rollbackerID = 13;
-    optional int64 rollbackedAt = 14;
-    optional string remark = 15;
+    optional uint64 transactionRecordID = 11;
+    int64 createdAt = 12;
+    optional int64 finishedAt = 13;
+    optional uint64 rollbackerID = 14;
+    optional int64 rollbackedAt = 15;
+    optional string remark = 16;
 }
 
 message GetOrdersRes {
