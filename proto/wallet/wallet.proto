@@ -65,6 +65,7 @@ message TransactionReq {
     string currency = 4;
     uint64 committerID = 5;
     optional string remark = 6;
+    optional string beforeAmount = 7;
 }
 
 message TransactionRes {
