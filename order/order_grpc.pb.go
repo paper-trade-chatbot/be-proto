@@ -29,6 +29,7 @@ type OrderServiceClient interface {
 	FailOrder(ctx context.Context, in *FailOrderReq, opts ...grpc.CallOption) (*FailOrderRes, error)
 	RollbackOrder(ctx context.Context, in *RollbackOrderReq, opts ...grpc.CallOption) (*RollbackOrderRes, error)
 	GetOrders(ctx context.Context, in *GetOrdersReq, opts ...grpc.CallOption) (*GetOrdersRes, error)
+	CheckOrderProcess(ctx context.Context, in *CheckOrderProcessReq, opts ...grpc.CallOption) (*CheckOrderProcessRes, error)
 }
 
 type orderServiceClient struct {
@@ -102,6 +103,15 @@ func (c *orderServiceClient) GetOrders(ctx context.Context, in *GetOrdersReq, op
 	return out, nil
 }
 
+func (c *orderServiceClient) CheckOrderProcess(ctx context.Context, in *CheckOrderProcessReq, opts ...grpc.CallOption) (*CheckOrderProcessRes, error) {
+	out := new(CheckOrderProcessRes)
+	err := c.cc.Invoke(ctx, "/order.OrderService/CheckOrderProcess", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations should embed UnimplementedOrderServiceServer
 // for forward compatibility
@@ -113,6 +123,7 @@ type OrderServiceServer interface {
 	FailOrder(context.Context, *FailOrderReq) (*FailOrderRes, error)
 	RollbackOrder(context.Context, *RollbackOrderReq) (*RollbackOrderRes, error)
 	GetOrders(context.Context, *GetOrdersReq) (*GetOrdersRes, error)
+	CheckOrderProcess(context.Context, *CheckOrderProcessReq) (*CheckOrderProcessRes, error)
 }
 
 // UnimplementedOrderServiceServer should be embedded to have forward compatible implementations.
@@ -139,6 +150,9 @@ func (UnimplementedOrderServiceServer) RollbackOrder(context.Context, *RollbackO
 }
 func (UnimplementedOrderServiceServer) GetOrders(context.Context, *GetOrdersReq) (*GetOrdersRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
+}
+func (UnimplementedOrderServiceServer) CheckOrderProcess(context.Context, *CheckOrderProcessReq) (*CheckOrderProcessRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckOrderProcess not implemented")
 }
 
 // UnsafeOrderServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -278,6 +292,24 @@ func _OrderService_GetOrders_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_CheckOrderProcess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckOrderProcessReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).CheckOrderProcess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/order.OrderService/CheckOrderProcess",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).CheckOrderProcess(ctx, req.(*CheckOrderProcessReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -312,6 +344,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOrders",
 			Handler:    _OrderService_GetOrders_Handler,
+		},
+		{
+			MethodName: "CheckOrderProcess",
+			Handler:    _OrderService_CheckOrderProcess_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

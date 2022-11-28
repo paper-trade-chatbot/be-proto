@@ -111,6 +111,14 @@ message GetOrdersRes {
     general.PaginationInfo paginationInfo = 2;
 }
 
+message CheckOrderProcessReq {
+    uint64 id = 1;
+}
+
+message CheckOrderProcessRes {
+    OrderStatus orderStatus = 1;
+}
+
 service OrderService {
     rpc StartOpenPositionOrder(StartOpenPositionOrderReq) returns (StartOpenPositionOrderRes);
     rpc FinishOpenPositionOrder(FinishOpenPositionOrderReq) returns (FinishOpenPositionOrderRes);
@@ -119,4 +127,5 @@ service OrderService {
     rpc FailOrder(FailOrderReq) returns (FailOrderRes);
     rpc RollbackOrder(RollbackOrderReq) returns (RollbackOrderRes);
     rpc GetOrders(GetOrdersReq) returns (GetOrdersRes);
+    rpc CheckOrderProcess(CheckOrderProcessReq) returns (CheckOrderProcessRes);
 }
