@@ -37,18 +37,33 @@ message ClosePositionReq {
 
 message ClosePositionRes {
     bool closed = 1;
-    uint64 id = 2;
-    string amountLeft = 3;
+    string amountLeft = 2;
 }
 
 message GetPositionsReq {
-    repeated uint64 memberID = 1;
-    optional product.ProductType type = 2;
-    optional string exchangeCode = 3;
-    optional string productCode = 4;
-    optional TradeType tradeType = 5;
-    repeated PositionStatus status = 6;
-    general.Pagination pagination = 7;
+    repeated uint64 id = 1;
+    repeated uint64 memberID = 2;
+    optional product.ProductType type = 3;
+    optional string exchangeCode = 4;
+    optional string productCode = 5;
+    optional TradeType tradeType = 6;
+    optional PositionStatus status = 7;
+    enum OrderBy {
+        OrderBy_None = 0;
+        OrderBy_ProductCode = 1;
+        OrderBy_CreatedAt = 2;
+    }
+    enum OrderDirection {
+        OrderDirection_None = 0;
+        OrderDirection_ASC = 1;
+        OrderDirection_DESC = -1;
+    }
+    message Order {
+        OrderBy orderBy = 1;
+        OrderDirection orderDirection = 2;
+    }
+    repeated Order order = 8;
+    general.Pagination pagination = 9;
 }
 
 message Position {
