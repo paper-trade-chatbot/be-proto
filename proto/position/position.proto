@@ -16,6 +16,13 @@ enum PositionStatus {
     PositionStatus_Close = 2;
 }
 
+enum ProcessState {
+    ProcessState_None = 0;
+    ProcessState_Open = 1;
+    ProcessState_PendingToClose = 2;
+    ProcessState_Close = 3;
+}
+
 message OpenPositionReq {
     uint64 memberID = 1;
     product.ProductType type = 2;
@@ -28,6 +35,15 @@ message OpenPositionReq {
 
 message OpenPositionRes {
     uint64 id = 1;
+}
+
+message PendingToClosePositionReq {
+    uint64 id = 1;
+    string closeAmount = 2; //為正值，代表該倉要減去多少數量
+}
+
+message PendingToClosePositionRes {
+    bool preemptSuccess = 1; //是否搶到pending成功
 }
 
 message ClosePositionReq {
@@ -74,10 +90,11 @@ message Position {
     string productCode = 5;
     TradeType tradeType = 6;
     PositionStatus status = 7;
-    string amount = 8;
-    string unitPrice = 9;
-    int64 createdAt = 10;
-    int64 updatedAt = 11;
+    ProcessState processState = 8;
+    string amount = 9;
+    string unitPrice = 10;
+    int64 createdAt = 11;
+    int64 updatedAt = 12;
 }
 
 message GetPositionsRes {
@@ -96,6 +113,7 @@ message ModifyPositionRes {}
 
 service PositionService {
     rpc OpenPosition(OpenPositionReq) returns (OpenPositionRes);
+    rpc PendingToClosePosition(PendingToClosePositionReq) returns (PendingToClosePositionRes);
     rpc ClosePosition(ClosePositionReq) returns (ClosePositionRes);
     rpc GetPositions(GetPositionsReq) returns (GetPositionsRes);
     rpc ModifyPosition(ModifyPositionReq) returns (ModifyPositionRes);
