@@ -39,7 +39,9 @@ message FinishOpenPositionOrderReq {
     int64 finishedAt = 4;
 }
 
-message FinishOpenPositionOrderRes {}
+message FinishOpenPositionOrderRes {
+    uint64 positionID = 1;
+}
 
 message StartClosePositionOrderReq {
     uint64 id = 1;
@@ -52,9 +54,11 @@ message StartClosePositionOrderRes {
 
 message FinishClosePositionOrderReq {
     uint64 id = 1;
-    string unitPrice = 2;
-    uint64 transactionRecordID = 3;
-    int64 finishedAt = 4;
+    uint64 positionID = 2;
+    string unitPrice = 3;
+    string closeAmount = 4;
+    uint64 transactionRecordID = 5;
+    int64 finishedAt = 6;
 }
 
 message FinishClosePositionOrderRes {}
@@ -90,20 +94,21 @@ message GetOrdersReq {
 message Order {
     uint64 id = 1;
     uint64 memberID = 2;
-    OrderStatus orderStatus = 3;
-    TransactionType transactionType = 4;
-    product.ProductType type = 5;
-    string exchangeCode = 6;
-    string productCode = 7;
-    position.TradeType tradeType = 8;
-    string amount = 9;
-    optional string unitPrice = 10;
-    optional uint64 transactionRecordID = 11;
-    int64 createdAt = 12;
-    optional int64 finishedAt = 13;
-    optional uint64 rollbackerID = 14;
-    optional int64 rollbackedAt = 15;
-    optional string remark = 16;
+    uint64 positionID = 3;
+    OrderStatus orderStatus = 4;
+    TransactionType transactionType = 5;
+    product.ProductType type = 6;
+    string exchangeCode = 7;
+    string productCode = 8;
+    position.TradeType tradeType = 9;
+    string amount = 10;
+    optional string unitPrice = 11;
+    optional uint64 transactionRecordID = 12;
+    int64 createdAt = 13;
+    optional int64 finishedAt = 14;
+    optional uint64 rollbackerID = 15;
+    optional int64 rollbackedAt = 16;
+    optional string remark = 17;
 }
 
 message GetOrdersRes {
