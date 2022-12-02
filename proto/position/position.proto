@@ -46,6 +46,12 @@ message PendingToClosePositionRes {
     bool preemptSuccess = 1; //是否搶到pending成功
 }
 
+message StopPendingPositionReq {
+    uint64 id = 1;
+}
+
+message StopPendingPositionRes {}
+
 message ClosePositionReq {
     uint64 id = 1;
     string closeAmount = 2; //為正值，代表該倉要減去多少數量
@@ -114,6 +120,7 @@ message ModifyPositionRes {}
 service PositionService {
     rpc OpenPosition(OpenPositionReq) returns (OpenPositionRes);
     rpc PendingToClosePosition(PendingToClosePositionReq) returns (PendingToClosePositionRes);
+    rpc StopPendingPosition(StopPendingPositionReq) returns (StopPendingPositionRes);
     rpc ClosePosition(ClosePositionReq) returns (ClosePositionRes);
     rpc GetPositions(GetPositionsReq) returns (GetPositionsRes);
     rpc ModifyPosition(ModifyPositionReq) returns (ModifyPositionRes);

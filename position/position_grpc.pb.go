@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type PositionServiceClient interface {
 	OpenPosition(ctx context.Context, in *OpenPositionReq, opts ...grpc.CallOption) (*OpenPositionRes, error)
 	PendingToClosePosition(ctx context.Context, in *PendingToClosePositionReq, opts ...grpc.CallOption) (*PendingToClosePositionRes, error)
+	StopPendingPosition(ctx context.Context, in *StopPendingPositionReq, opts ...grpc.CallOption) (*StopPendingPositionRes, error)
 	ClosePosition(ctx context.Context, in *ClosePositionReq, opts ...grpc.CallOption) (*ClosePositionRes, error)
 	GetPositions(ctx context.Context, in *GetPositionsReq, opts ...grpc.CallOption) (*GetPositionsRes, error)
 	ModifyPosition(ctx context.Context, in *ModifyPositionReq, opts ...grpc.CallOption) (*ModifyPositionRes, error)
@@ -49,6 +50,15 @@ func (c *positionServiceClient) OpenPosition(ctx context.Context, in *OpenPositi
 func (c *positionServiceClient) PendingToClosePosition(ctx context.Context, in *PendingToClosePositionReq, opts ...grpc.CallOption) (*PendingToClosePositionRes, error) {
 	out := new(PendingToClosePositionRes)
 	err := c.cc.Invoke(ctx, "/position.PositionService/PendingToClosePosition", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *positionServiceClient) StopPendingPosition(ctx context.Context, in *StopPendingPositionReq, opts ...grpc.CallOption) (*StopPendingPositionRes, error) {
+	out := new(StopPendingPositionRes)
+	err := c.cc.Invoke(ctx, "/position.PositionService/StopPendingPosition", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,6 +98,7 @@ func (c *positionServiceClient) ModifyPosition(ctx context.Context, in *ModifyPo
 type PositionServiceServer interface {
 	OpenPosition(context.Context, *OpenPositionReq) (*OpenPositionRes, error)
 	PendingToClosePosition(context.Context, *PendingToClosePositionReq) (*PendingToClosePositionRes, error)
+	StopPendingPosition(context.Context, *StopPendingPositionReq) (*StopPendingPositionRes, error)
 	ClosePosition(context.Context, *ClosePositionReq) (*ClosePositionRes, error)
 	GetPositions(context.Context, *GetPositionsReq) (*GetPositionsRes, error)
 	ModifyPosition(context.Context, *ModifyPositionReq) (*ModifyPositionRes, error)
@@ -102,6 +113,9 @@ func (UnimplementedPositionServiceServer) OpenPosition(context.Context, *OpenPos
 }
 func (UnimplementedPositionServiceServer) PendingToClosePosition(context.Context, *PendingToClosePositionReq) (*PendingToClosePositionRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PendingToClosePosition not implemented")
+}
+func (UnimplementedPositionServiceServer) StopPendingPosition(context.Context, *StopPendingPositionReq) (*StopPendingPositionRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StopPendingPosition not implemented")
 }
 func (UnimplementedPositionServiceServer) ClosePosition(context.Context, *ClosePositionReq) (*ClosePositionRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClosePosition not implemented")
@@ -156,6 +170,24 @@ func _PositionService_PendingToClosePosition_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PositionServiceServer).PendingToClosePosition(ctx, req.(*PendingToClosePositionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PositionService_StopPendingPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StopPendingPositionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PositionServiceServer).StopPendingPosition(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/position.PositionService/StopPendingPosition",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PositionServiceServer).StopPendingPosition(ctx, req.(*StopPendingPositionReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -228,6 +260,10 @@ var PositionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PendingToClosePosition",
 			Handler:    _PositionService_PendingToClosePosition_Handler,
+		},
+		{
+			MethodName: "StopPendingPosition",
+			Handler:    _PositionService_StopPendingPosition_Handler,
 		},
 		{
 			MethodName: "ClosePosition",

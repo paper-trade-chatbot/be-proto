@@ -65,6 +65,8 @@ message FinishClosePositionOrderRes {}
 
 message FailOrderReq {
     uint64 id = 1;
+    optional uint64 failCode = 2;
+    optional string remark = 3;
 }
 
 message FailOrderRes {}
@@ -109,6 +111,7 @@ message Order {
     optional uint64 rollbackerID = 15;
     optional int64 rollbackedAt = 16;
     optional string remark = 17;
+    optional uint64 failCode = 18;
 }
 
 message GetOrdersRes {
