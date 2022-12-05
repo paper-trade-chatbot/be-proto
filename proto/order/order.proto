@@ -119,12 +119,30 @@ message GetOrdersRes {
     general.PaginationInfo paginationInfo = 2;
 }
 
-message CheckOrderProcessReq {
+enum OrderProcess {
+    OrderProcess_None = 0;
+    OrderProcess_Waiting = 1;
+    OrderProcess_Matching = 2;
+    OrderProcess_Matched = 3;
+    OrderProcess_Finished = 4;
+    OrderProcess_Failed = 5;
+    OrderProcess_Unknown = 6;
+}
+
+message UpdateOrderProcessReq {
+    uint64 id = 1;
+    OrderProcess orderProcess = 2;
+    optional int64 expire = 3;
+}
+
+message UpdateOrderProcessRes {}
+
+message GetOrderProcessReq {
     uint64 id = 1;
 }
 
-message CheckOrderProcessRes {
-    OrderStatus orderStatus = 1;
+message GetOrderProcessRes {
+    OrderProcess orderProcess = 1;
 }
 
 service OrderService {
@@ -135,5 +153,6 @@ service OrderService {
     rpc FailOrder(FailOrderReq) returns (FailOrderRes);
     rpc RollbackOrder(RollbackOrderReq) returns (RollbackOrderRes);
     rpc GetOrders(GetOrdersReq) returns (GetOrdersRes);
-    rpc CheckOrderProcess(CheckOrderProcessReq) returns (CheckOrderProcessRes);
+    rpc UpdateOrderProcess(UpdateOrderProcessReq) returns (UpdateOrderProcessRes);
+    rpc GetOrderProcess(GetOrderProcessReq) returns (GetOrderProcessRes);
 }
